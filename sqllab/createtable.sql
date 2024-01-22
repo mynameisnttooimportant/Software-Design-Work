@@ -10,7 +10,7 @@ CREATE TABLE earthquakes (
   rms real, 
   id text,
   place text,
-  deptherror text, 
-  magerror text, 
+  deptherror real, 
+  magerror real, 
   locationsource text
 );
