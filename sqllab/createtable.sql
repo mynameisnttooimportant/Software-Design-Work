@@ -12,5 +12,5 @@ CREATE TABLE earthquakes (
   place text,
   deptherror text, 
   magerror text, 
-  locationsource
+  locationsource text
 );
