@@ -17,8 +17,8 @@ def create_tables():
             abbreviation text
             );'''
             
-    sql2 = '''DROP TABLE IF EXISTS STATES;
-            CREATE TABLE STATES (
+    sql2 = '''DROP TABLE IF EXISTS CITIES;
+            CREATE TABLE CITIES (
             city,
             state text,
             population real,
