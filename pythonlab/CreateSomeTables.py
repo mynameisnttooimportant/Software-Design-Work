@@ -19,7 +19,7 @@ def create_tables():
             
     sql2 = '''DROP TABLE IF EXISTS CITIES;
             CREATE TABLE CITIES (
-            city,
+            city text,
             state text,
             population real,
             latitude real,
