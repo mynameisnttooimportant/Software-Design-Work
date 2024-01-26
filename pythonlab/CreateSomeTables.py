@@ -29,5 +29,7 @@ def create_tables():
     cur.execute(sql1)
     cur.execute(sql2)
     
+    conn.commit()
+    
     
 create_tables()
