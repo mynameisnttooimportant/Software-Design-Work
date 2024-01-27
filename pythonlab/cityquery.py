@@ -11,7 +11,7 @@ def queries():
 
     cur = conn.cursor()
 
-    sql1 = '''SELECT latitude, longitude FROM cities WHERE city = 'Minneapolis';'''
+    sql1 = '''SELECT latitude, longitude FROM cities WHERE city = 'Northfield';'''
     
                 
     cur.execute(sql1)
