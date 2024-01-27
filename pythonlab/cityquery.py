@@ -29,7 +29,7 @@ def queries():
     '''
     cur.execute(sql2)
     row_list = cur.fetchall()
-    print(row_list)
+    print(row_list[0])
     
     
     
