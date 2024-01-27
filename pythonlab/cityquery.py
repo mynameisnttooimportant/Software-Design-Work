@@ -23,7 +23,7 @@ def queries():
         
         
         
-    sql2 = '''SELECT city
+    sql2 = '''SELECT city, state
     FROM cities
     WHERE population = (SELECT MAX(population) FROM cities);
     '''
@@ -33,28 +33,28 @@ def queries():
     
     sql3 = '''
         -- Furthest North
-        (SELECT city, 'Furthest North' AS Position
+        (SELECT city, state, 'Furthest North' AS Position
         FROM cities
         WHERE latitude = (SELECT MAX(latitude) FROM cities))
 
         UNION ALL
 
         -- Furthest East
-        (SELECT city, 'Furthest East' AS Position
+        (SELECT city, state, 'Furthest East' AS Position
         FROM cities
         WHERE longitude = (SELECT MAX(longitude) FROM cities))
 
         UNION ALL
 
         -- Furthest South
-        (SELECT city, 'Furthest South' AS Position
+        (SELECT city, state, 'Furthest South' AS Position
         FROM cities
         WHERE latitude = (SELECT MIN(latitude) FROM cities))
 
         UNION ALL
 
         -- Furthest West
-        (SELECT city, 'Furthest West' AS Position
+        (SELECT city, state, 'Furthest West' AS Position
         FROM cities
         WHERE longitude = (SELECT MIN(longitude) FROM cities));
     '''
