@@ -65,7 +65,7 @@ def queries():
     
     state = str(input("Enter a state "))
     
-    sql4 = 'SELECT * where state =',state,';'
+    sql4 = 'SELECT * where state = ' + state + ';'
     
     cur.execute(sql4)
     row_list = cur.fetchall()
