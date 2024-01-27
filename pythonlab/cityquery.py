@@ -63,7 +63,7 @@ def queries():
     row_list = cur.fetchall()
     print(row_list)
     
-    state = input("Enter a state")
+    state = input("Enter a state ")
     
     sql4 = ('SELECT * where state =',state)
     
