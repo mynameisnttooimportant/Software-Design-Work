@@ -11,7 +11,7 @@ def queries():
 
     cur = conn.cursor()
 
-    sql1 = '''SELECT latitude, longitude FROM cities WHERE city = 'Northfield';'''
+    sql1 = '''SELECT latitude, longitude FROM cities WHERE city = 'Minneapolis';'''
     
                 
     cur.execute(sql1)
@@ -20,6 +20,16 @@ def queries():
         print(row_list)
     else:
         print("Northfield is not in the database")
+        
+        
+        
+    sql2 = '''SELECT city
+    FROM cities
+    WHERE population = (SELECT MAX(population) FROM cities);
+    '''
+    cur.execute(sql2)
+    row_list = cur.fetchall()
+    print(row_list)
     
     
     
