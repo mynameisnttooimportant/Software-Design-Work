@@ -63,6 +63,19 @@ def queries():
     row_list = cur.fetchall()
     print(row_list)
     
+    state = input("Enter a state")
+    
+    sql4 = ('SELECT * where state =',state)
+    
+    cur.execute(sql4)
+    row_list = cur.fetchall()
+    aggregate = 0
+    for row in row_list:
+        aggregate = aggregate + row[2]
+        
+    print("The total population of included cities in", state, "is", aggregate)
+    
+    
     
     
 queries()
