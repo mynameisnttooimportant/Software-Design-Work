@@ -29,7 +29,39 @@ def queries():
     '''
     cur.execute(sql2)
     row_list = cur.fetchall()
-    print(row_list[0])
+    print(row_list)
+    
+    sql3 = '''
+        -- Furthest North
+        (SELECT city, 'Furthest North' AS Position
+        FROM cities
+        WHERE latitude = (SELECT MAX(latitude) FROM cities))
+
+        UNION ALL
+
+        -- Furthest East
+        (SELECT city, 'Furthest East' AS Position
+        FROM cities
+        WHERE longitude = (SELECT MAX(longitude) FROM cities))
+
+        UNION ALL
+
+        -- Furthest South
+        (SELECT city, 'Furthest South' AS Position
+        FROM cities
+        WHERE latitude = (SELECT MIN(latitude) FROM cities))
+
+        UNION ALL
+
+        -- Furthest West
+        (SELECT city, 'Furthest West' AS Position
+        FROM cities
+        WHERE longitude = (SELECT MIN(longitude) FROM cities));
+    '''
+    
+    cur.execute(sql3)
+    row_list = cur.fetchall()
+    print(row_list)
     
     
     
