@@ -45,13 +45,13 @@ def get_population_by_abbreviation(word1):
             pops_reader = csv.reader(pops_file)
             for row in pops_reader:
                 if row[1].lower() == state_name.lower():
-                    return str(row[2])  # Return the population if found
+                    return '<h1 style="color:Red">' +str(row[2])+'</h1>'  # Return the population if found
 
     # Return appropriate messages if not found
     if not state_name:
-        return "State not found."
+        return '<h1 style="color:Red">' + 'State not found.' + '</h1>'
     else:
-        return "Population not found."
+        return '<h1 style="color:Red">' + 'Population not found.' + '</h1>'
 
 
 if __name__ == '__main__':
