@@ -26,7 +26,7 @@ def get_population_by_abbreviation(word1):
 
 @app.route('/poad/<word1>')
 def get_population_by_abbreviation(word1):
-    return render_template("index.html")
+    return flask.render_template("index.html")
 
 
 if __name__ == '__main__':
