@@ -44,7 +44,7 @@ def get_population_by_abbreviation(word1):
         with open(pops_filename, newline='') as pops_file:
             pops_reader = csv.reader(pops_file)
             for row in pops_reader:
-                if row[1].lower() == state_name.lower():
+                if row[0].lower() == state_name.lower():
                     return '<h1 style="color:Red">' +str(row[2])+'</h1>'  # Return the population if found
 
     # Return appropriate messages if not found
