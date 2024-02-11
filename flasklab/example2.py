@@ -25,33 +25,15 @@ def my_addition(word1, word2):
 @app.route('/pop/<word1>')
 def get_population_by_abbreviation(word1):
     # Define the filenames for both CSV files
-    states_filename = 'states.csv'
     pops_filename = 'pops.csv'
-    
-    # Initialize state name as None
-    state_name = None
 
-    # First, find the state name from the abbreviation
-    with open(states_filename, newline='') as states_file:
-        states_reader = csv.reader(states_file)
-        for row in states_reader:
+    with open(pops_filename, newline='') as pops_file:
+        pops_reader = csv.reader(pops_file)
+        for row in pops_reader:
             if row[1].lower() == word1.lower():
-                state_name = row[0]
-                break  # Stop searching once the state name is found
+                return '<h1 style="color:Red">' +str(row[2])+'</h1>'  # Return the population if found
 
-    # If the state name was found, look up the population
-    if state_name:
-        with open(pops_filename, newline='') as pops_file:
-            pops_reader = csv.reader(pops_file)
-            for row in pops_reader:
-                if row[0].lower() == state_name.lower():
-                    return '<h1 style="color:Red">' +str(row[2])+'</h1>'  # Return the population if found
-
-    # Return appropriate messages if not found
-    if not state_name:
-        return '<h1 style="color:Red">' + 'State not found.' + '</h1>'
-    else:
-        return '<h1 style="color:Red">' + 'Population not found.' + '</h1>'
+    return '<h1 style="color:Red">' + 'Population not found.' + '</h1>'
 
 
 if __name__ == '__main__':
