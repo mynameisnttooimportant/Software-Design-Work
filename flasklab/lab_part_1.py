@@ -23,9 +23,8 @@ def get_population_by_abbreviation(word1):
 
     return '<h1 style="color:Red">' + 'Population not found.' + '</h1>'
 
-
-@app.route('/poad/<word1>')
-def get_population_by_abbreviation(word1):
+@app.route('/otherstuff/<word1>')
+def other(word1):
     return flask.render_template("index.html")
 
 
