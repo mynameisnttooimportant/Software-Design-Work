@@ -24,6 +24,11 @@ def get_population_by_abbreviation(word1):
     return '<h1 style="color:Red">' + 'Population not found.' + '</h1>'
 
 
+@app.route('/poad/<word1>')
+def get_population_by_abbreviation(word1):
+    return render_template("index.html")
+
+
 if __name__ == '__main__':
     my_port = 5106
     app.run(host='0.0.0.0', port = my_port) 
