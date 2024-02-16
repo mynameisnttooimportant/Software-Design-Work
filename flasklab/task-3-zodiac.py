@@ -1,3 +1,5 @@
+# Takes a birthday and outputs a Zodiac sign
+
 from flask import Flask, request, render_template
 from datetime import datetime
 
