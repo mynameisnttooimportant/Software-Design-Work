@@ -30,14 +30,16 @@ def get_zodiac_sign(day, month):
     elif (month == 11 and day >= 22) or (month == 12 and day <= 21):
         return "Sagittarius"
 
-@app.route('/')
 def home():
-    birthday = request.form['birthday']
-    birthday_date = datetime.strptime(birthday, '%Y-%m-%d')
-    sign = get_zodiac_sign(birthday_date.day, birthday_date.month)
-    return render_template('result.html', sign=sign)
-    return render_template('customindex.html')
-
+    if 'birthday' in request.form:  # Check if 'birthday' field is in the form data.
+        birthday = request.form['birthday']
+        birthday_date = datetime.strptime(birthday, '%Y-%m-%d')
+        sign = get_zodiac_sign(birthday_date.day, birthday_date.month)
+        return render_template('result.html', sign=sign)
+    else:
+        return render_template('customindex.html')
+    
+    
 if __name__ == '__main__':
     my_port = 5106
     app.run(host='0.0.0.0', port = my_port) 
