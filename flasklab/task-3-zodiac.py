@@ -32,6 +32,9 @@ def get_zodiac_sign(day, month):
 
 
 # I learned how to work with GET and POST for forms from this website: https://www.w3schools.com/tags/att_form_method.asp
+# It's sort of just a different method to redirect between pages within a website. 
+# The form is information is POST and the overall website information is GET. 
+# is POST information is detected, it is broken down and rendered. Else, any other button will lead back to the original website 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
