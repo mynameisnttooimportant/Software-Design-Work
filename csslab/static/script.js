@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function draw(e) {
         if (!drawing) return;
-        drawingrules.lineWidth = 2;
-        drawingrules.lineCap = 'round';
+        drawingrules.lineWidth = 3;
+        drawingrules.lineCap = 'square';
         drawingrules.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
         drawingrules.stroke();
         drawingrules.beginPath();
