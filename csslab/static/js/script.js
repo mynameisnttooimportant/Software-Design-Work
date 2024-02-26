@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Handle the example button click
     document.getElementById('exampleBtn').addEventListener('click', function() {
         const img = document.getElementById('exampleImg');
-        img.src = "{{ url_for('static', filename='example.jpg') }}";
+        img.src = "{{ url_for('static', filename='monalisa.jpg') }}";
         img.style.display = 'block'; // Show the image
     });
 });
