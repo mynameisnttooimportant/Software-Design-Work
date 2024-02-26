@@ -3,7 +3,7 @@ import psycopg2
 
 app = Flask(__name__)
 
-# Define a function to establish connection to PostgreSQL
+# Function to establish connection to PostgreSQL
 def connect_to_db():
     try:
         conn = psycopg2.connect(
@@ -16,27 +16,26 @@ def connect_to_db():
         print("Database connection established successfully")
         return conn
     except Exception as e:
-        print("Error connecting to database:", e)
+        print(f"Error connecting to database: {e}")
+        return None
 
-# Define routes
+# Route for species page
 @app.route('/species')
 def species():
     return render_template('species.html')
 
+# Route for starships page
 @app.route('/starships')
 def starships():
     return render_template('starships.html')
 
-# Define a route to handle the request for species information
+# Route for fetching species information
 @app.route('/species-info', methods=['POST'])
 def species_info():
     try:
-
-        # Extract species name from request
         request_data = request.get_json()
         species_name = request_data.get('species')
 
-        # Query the database for species information
         conn = connect_to_db()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM species WHERE name = %s", (species_name,))
@@ -45,43 +44,41 @@ def species_info():
         conn.close()
 
         if species_info:
-            # If species information is found, return it as JSON
             return jsonify(species_info)
         else:
-            # If species not found, return appropriate response
             return jsonify({'error': 'Species not found'}), 404
     except Exception as e:
-        # Handle any exceptions that occur during processing
         return jsonify({'error': str(e)}), 500
 
-# Define a route to handle the request for starships information
+# Updated route for fetching starships information with cargo capacity filtering
 @app.route('/starships-info', methods=['POST'])
 def starships_info():
     try:
-
-        # Extract starships name from request
         request_data = request.get_json()
-        starships_name = request_data.get('starships')
+        starships_name = request_data.get('starships', '')
+        min_cargo_capacity = request_data.get('minCargoCapacity', 0)  # Default to 0 if not provided
+        max_cargo_capacity = request_data.get('maxCargoCapacity', float('inf'))  # Default to infinity if not provided
 
-        # Query the database for starships information
         conn = connect_to_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM starships WHERE name = %s", (starships_name,))
-        starships_info = cursor.fetchone()
+        query = """
+        SELECT * FROM starships 
+        WHERE name ILIKE %s 
+        AND cargo_capacity >= %s 
+        AND cargo_capacity <= %s;
+        """
+        cursor.execute(query, ('%' + starships_name + '%', min_cargo_capacity, max_cargo_capacity))
+        starships_info = cursor.fetchall()  # Fetchall to get all matching records
+
         cursor.close()
         conn.close()
 
         if starships_info:
-            # If starships information is found, return it as JSON
             return jsonify(starships_info)
         else:
-            # If starships not found, return appropriate response
             return jsonify({'error': 'Starships not found'}), 404
     except Exception as e:
-        # Handle any exceptions that occur during processing
         return jsonify({'error': str(e)}), 500
 
-
 if __name__ == '__main__':
-    my_port = 5106
-    app.run(host='0.0.0.0', port = my_port)
+    app.run(host='0.0.0.0', port=5106)
