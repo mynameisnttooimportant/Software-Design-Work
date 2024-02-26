@@ -84,5 +84,42 @@ document.addEventListener('DOMContentLoaded', function() {
         infoBox.textContent = `Info: ${starshipsInfo}`;
         targetElement.insertAdjacentElement('afterend', infoBox);
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var filterBtn = document.getElementById('filter-btn');
+        var searchInput = document.getElementById('search');
+    
+        filterBtn.addEventListener('click', function() {
+            var searchValue = searchInput.value.toLowerCase();
+            var minCargoCapacity = document.getElementById('min-cargo-capacity').value;
+            var maxCargoCapacity = document.getElementById('max-cargo-capacity').value;
+    
+            fetchStarshipInformationWithCargoCapacity(searchValue, minCargoCapacity, maxCargoCapacity);
+        });
+    
+        function fetchStarshipInformationWithCargoCapacity(starshipName, minCargo, maxCargo) {
+            fetch('/starships-info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    starships: starshipName,
+                    minCargoCapacity: minCargo || 0,
+                    maxCargoCapacity: maxCargo || Number.MAX_SAFE_INTEGER
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Implement display logic
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    });
+    
+
+
 });
 
