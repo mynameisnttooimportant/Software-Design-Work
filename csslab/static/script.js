@@ -31,10 +31,10 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     });
 
-    // Handle the example button click
+    // Adding event listener for the "Example" button
     document.getElementById('exampleBtn').addEventListener('click', function() {
         const img = document.getElementById('exampleImg');
-        img.src = "{{ url_for('static', filename='monalisa.jpg') }}";
+        img.src = 'static/monalisa.jpg'; // Direct path assuming Flask's static file serving
         img.style.display = 'block'; // Show the image
     });
 });
