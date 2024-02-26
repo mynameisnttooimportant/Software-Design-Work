@@ -10,19 +10,20 @@
     <header>
         <div class="container">
             <h1>Starships</h1>
-	    <nav>
-	       <ul>
-		   <li><a href="/species">Species</a></li>
-	       </ul>
-	    </nav>
+            <nav>
+                <ul>
+                    <li><a href="/species">Species</a></li>
+                </ul>
+            </nav>
             <a href="#" class="home-button">Home</a>
         </div>
     </header>
     <main>
         <div class="container">
             <input type="text" id="search" placeholder="Search ships...">
-	    <!-- <div id="starships-info-container"></div> -->
-            <div id="dropdown-container"></div>
+            <input type="number" id="min-cargo-capacity" placeholder="Min Cargo Capacity" min="0">
+            <input type="number" id="max-cargo-capacity" placeholder="Max Cargo Capacity" min="0">
+            <button id="filter-btn">Filter</button>
             <ul id="starships-list">
                 <!-- Static starships list -->
                 <li data-starships="Sentinel-class landing craft">Sentinel-class landing craft</li>
