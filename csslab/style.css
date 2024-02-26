@@ -1,0 +1,9 @@
+canvas {
+    border: 1px solid black;
+}
+
+#exampleImg {
+    border: 1px solid #ddd; /* Light grey border */
+    border-radius: 4px; /* Rounded border */
+    padding: 5px; /* Some padding */
+}
