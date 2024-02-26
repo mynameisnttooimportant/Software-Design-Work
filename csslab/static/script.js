@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const canvas = document.getElementById('drawingCanvas');
-    const drawingrules = canvas.getContext('2d');
+    const drawingrules = canvas.getContext('3d');
     let drawing = false;
 
     function startDrawing(e) {
