@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
         draw(e);
     }
 
-    function endrawing() {
+    function endDrawing() {
         drawing = false;
         drawingrules.beginPath();
     }
