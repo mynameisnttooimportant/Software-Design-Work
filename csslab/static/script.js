@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoakhded', function () {
     const canvas = document.getElementById('drawingCanvas');
     const drawingrules = canvas.getContext('2d');
     let drawing = false;
