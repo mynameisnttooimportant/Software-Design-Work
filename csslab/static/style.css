@@ -1,9 +1,9 @@
 canvas {
-    border: 1px solid black;
+    border: 10px solid pink;
 }
 
 #exampleImg {
-    border: 1px solid #ddd; 
+    border: 10px solid gray; 
     border-radius: 10px; /* Rounded border */
     padding: 10px; /* Some padding */
 }
