@@ -3,7 +3,7 @@ canvas {
 }
 
 #exampleImg {
-    border: 1px solid #ddd; /* Light grey border */
-    border-radius: 4px; /* Rounded border */
-    padding: 5px; /* Some padding */
+    border: 1px solid #ddd; 
+    border-radius: 10px; /* Rounded border */
+    padding: 10px; /* Some padding */
 }
