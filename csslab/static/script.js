@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const drawingrules = canvas.getContext('2d');
     let drawing = false;
 
-    function startDrawing(e) {
+    function beginDrawing(e) {
         drawing = true;
         draw(e);
     }
 
-    function stopDrawing() {
+    function endrawing() {
         drawing = false;
         drawingrules.beginPath();
     }
@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
         drawingrules.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
     }
 
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mousedown', beginDrawing);
+    canvas.addEventListener('mouseup', endDrawing);
     canvas.addEventListener('mousemove', draw);
 
     document.getElementById('clearBtn').addEventListener('click', function() {
