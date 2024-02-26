@@ -27,12 +27,12 @@ document.addEventListener('DOMContentLoaded', function () {
     canvas.addEventListener('mouseup', endDrawing);
     canvas.addEventListener('mousemove', draw);
 
-    document.getElementById('clearBtn').addEventListener('click', function() {
+    document.getElementById('clearButton').addEventListener('click', function() {
         drawingrules.clearRect(0, 0, canvas.width, canvas.height);
     });
 
     // Adding event listener for the "Example" button
-    document.getElementById('exampleBtn').addEventListener('click', function() {
+    document.getElementById('exampleButton').addEventListener('click', function() {
         const img = document.getElementById('exampleImg');
         img.src = 'static/monalisa.jpg'; // Direct path
         img.style.display = 'block'; // Show the image
