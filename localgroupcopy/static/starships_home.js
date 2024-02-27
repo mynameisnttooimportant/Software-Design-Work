@@ -5,54 +5,78 @@ document.addEventListener('DOMContentLoaded', function() {
     var minCargoCapacity = document.getElementById('min-cargo-capacity');
     var maxCargoCapacity = document.getElementById('max-cargo-capacity');
 
-    function fetchStarships(criteria) {
+    starshipsList.addEventListener('click', function(event) {
+        if (event.target.tagName === 'LI') {
+            var starshipName = event.target.dataset.starships;
+            toggleStarshipInformation(starshipName, event.target);
+        }
+    });
+
+    searchInput.addEventListener('input', function() {
+        applyFilters();
+    });
+
+    filterBtn.addEventListener('click', function() {
+        applyFilters();
+    });
+
+    function applyFilters() {
+        var searchValue = searchInput.value.toLowerCase();
+        var starshipsItems = starshipsList.querySelectorAll('li');
+        
+        starshipsItems.forEach(function(item) {
+            var starshipName = item.dataset.starships.toLowerCase();
+            var cargoCapacity = parseInt(item.dataset.cargoCapacity, 10);
+
+            var matchesSearch = starshipName.includes(searchValue);
+            var matchesMinCargo = !minCargoCapacity.value || cargoCapacity >= parseInt(minCargoCapacity.value, 10);
+            var matchesMaxCargo = !maxCargoCapacity.value || cargoCapacity <= parseInt(maxCargoCapacity.value, 10);
+            
+            if (matchesSearch && matchesMinCargo && matchesMaxCargo) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+                var infoBox = item.nextElementSibling;
+                if (infoBox && infoBox.classList.contains('info-box')) {
+                    infoBox.remove();
+                }
+            }
+        });
+    }
+
+    function fetchStarshipInformation(starshipName, targetElement) {
         fetch('/starships-info', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(criteria)
+            body: JSON.stringify({
+                starships: starshipName,
+            }),
         })
         .then(response => response.json())
         .then(data => {
-            updateStarshipsList(data);
+            displayStarshipInformation(data, targetElement);
         })
         .catch(error => {
             console.error('Error:', error);
         });
     }
 
-    function updateStarshipsList(data) {
-        starshipsList.innerHTML = ''; // Clear current list
-        data.forEach(starship => {
-            let li = document.createElement('li');
-            li.textContent = starship.name; // Assuming 'name' is part of your data
-            li.dataset.starshipId = starship.id; // Assuming 'id' is part of your data
-            li.addEventListener('click', () => displayStarshipInfo(starship));
-            starshipsList.appendChild(li);
-        });
+    function toggleStarshipInformation(starshipName, targetElement) {
+        var existingInfoBox = targetElement.nextElementSibling;
+        if (existingInfoBox && existingInfoBox.classList.contains('info-box')) {
+            existingInfoBox.remove();
+        } else {
+            fetchStarshipInformation(starshipName, targetElement);
+        }
     }
 
-    function displayStarshipInfo(starship) {
-        // Implementation depends on how you want to display the detailed info
-        console.log(starship); // For demonstration, just log the starship details
+    function displayStarshipInformation(starshipsInfo, targetElement) {
+        var infoBox = document.createElement('div');
+        infoBox.classList.add('info-box');
+        infoBox.dataset.starships = starshipsInfo.name;
+        infoBox.textContent = `Info: ${JSON.stringify(starshipsInfo)}`; // Assuming starshipsInfo is an object
+        targetElement.insertAdjacentElement('afterend', infoBox);
     }
-
-    searchInput.addEventListener('input', function() {
-        let criteria = {
-            starships: searchInput.value,
-            minCargoCapacity: minCargoCapacity.value || 0,
-            maxCargoCapacity: maxCargoCapacity.value || Number.MAX_SAFE_INTEGER
-        };
-        fetchStarships(criteria);
-    });
-
-    filterBtn.addEventListener('click', function() {
-        let criteria = {
-            starships: searchInput.value,
-            minCargoCapacity: minCargoCapacity.value || 0,
-            maxCargoCapacity: maxCargoCapacity.value || Number.MAX_SAFE_INTEGER
-        };
-        fetchStarships(criteria);
-    });
 });
