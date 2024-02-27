@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Adding event listener for the "Example" button
     document.getElementById('exampleButton').addEventListener('click', function() {
-        const img = document.getElementById('exampleImg');
+        const img = document.getElementById('exampleImage');
         img.src = 'static/monalisa.jpg'; // Direct path
         img.style.display = 'block'; // Show the image
     });
