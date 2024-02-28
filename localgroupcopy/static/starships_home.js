@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var minCargoCapacity = document.getElementById('min-cargo-capacity');
     var maxCargoCapacity = document.getElementById('max-cargo-capacity');
 
-    // Event listener to handle click actions within the starships list
     starshipsList.addEventListener('click', function(event) {
         if (event.target.tagName === 'LI') {
             var starshipName = event.target.dataset.starships;
@@ -13,50 +12,42 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Event listener for the search functionality
-    searchInput.addEventListener('input', fetchFilteredStarships);
+    searchInput.addEventListener('input', function() {
+        filterStarships();
+    });
 
-    // Event listener for the filter button to apply cargo capacity filters
-    filterBtn.addEventListener('click', fetchFilteredStarships);
+    filterBtn.addEventListener('click', function() {
+        filterStarships();
+    });
 
-    // Fetches and displays starships based on search and filter criteria
-    function fetchFilteredStarships() {
+    function filterStarships() {
         var searchValue = searchInput.value.toLowerCase();
         var minCapacityValue = minCargoCapacity.value;
         var maxCapacityValue = maxCargoCapacity.value;
 
-        fetch('/starships-info', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                search: searchValue,
-                minCargoCapacity: minCapacityValue,
-                maxCargoCapacity: maxCapacityValue
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            updateStarshipsList(data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
+        // Assuming all list items are initially displayed, filter them based on the input and cargo capacity
+        var starshipsItems = starshipsList.querySelectorAll('li');
+        starshipsItems.forEach(function(item) {
+            var starshipName = item.dataset.starships.toLowerCase();
+            var cargoCapacity = parseInt(item.dataset.cargoCapacity, 10) || 0; // Assuming data-cargoCapacity is set for each item
+
+            var matchesSearch = starshipName.includes(searchValue);
+            var matchesCargoCapacity = cargoCapacity >= (minCapacityValue || 0) && cargoCapacity <= (maxCapacityValue || Infinity);
+
+            if (matchesSearch && matchesCargoCapacity) {
+                item.style.display = ''; // Show the item if it matches both search and cargo capacity criteria
+            } else {
+                item.style.display = 'none'; // Otherwise, hide it
+                // Remove the info box if present
+                var nextElement = item.nextElementSibling;
+                if (nextElement && nextElement.classList.contains('info-box')) {
+                    nextElement.remove();
+                }
+            }
         });
     }
 
-    // Updates the starships list based on fetched data
-    function updateStarshipsList(data) {
-        starshipsList.innerHTML = '';
-        data.forEach(function(starship) {
-            var li = document.createElement('li');
-            li.textContent = starship.name;
-            li.dataset.starships = starship.name;
-            starshipsList.appendChild(li);
-        });
-    }
-
-    // Toggles the display of detailed starship information
+    // Keeping the original functions as they are
     function toggleStarshipInformation(starshipName, targetElement) {
         var existingInfoBox = targetElement.nextElementSibling;
         if (existingInfoBox && existingInfoBox.classList.contains('info-box')) {
@@ -66,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Fetches detailed information for a specific starship
     function fetchStarshipInformation(starshipName, targetElement) {
         fetch('/starships-info', {
             method: 'POST',
@@ -86,13 +76,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Displays detailed information for a specific starship
     function displayStarshipInformation(starshipsInfo, targetElement) {
         var infoBox = document.createElement('div');
         infoBox.classList.add('info-box');
         infoBox.dataset.starships = starshipsInfo.name;
-        // Modify this line to display the information you want, such as name, model, etc.
-        infoBox.textContent = `Info: ${JSON.stringify(starshipsInfo)}`; 
+        infoBox.textContent = `Info: ${JSON.stringify(starshipsInfo)}`;
         targetElement.insertAdjacentElement('afterend', infoBox);
     }
 });
