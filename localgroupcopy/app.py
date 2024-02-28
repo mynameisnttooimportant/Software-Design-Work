@@ -56,6 +56,7 @@ def starships_info():
     try:
         request_data = request.get_json()
         search = request_data.get('search', '')
+        starships_name = request_data.get('starships', '')
         min_cargo_capacity = request_data.get('minCargoCapacity', 0)
         max_cargo_capacity = request_data.get('maxCargoCapacity', "Infinity")
 
@@ -63,7 +64,7 @@ def starships_info():
         cursor = conn.cursor()
 
         query = """
-        SELECT id, name, model, manufacturer, cargo_capacity FROM starships 
+        SELECT * FROM starships 
         WHERE name ILIKE %s 
         AND cargo_capacity >= %s
         """
@@ -73,17 +74,16 @@ def starships_info():
             query += " AND cargo_capacity <= %s"
             params.append(max_cargo_capacity)
 
-        cursor.execute(query, params)
-        starships_info = cursor.fetchall()
+        cursor.execute(query, ('%' + starships_name + '%', min_cargo_capacity, max_cargo_capacity))
+        starships_info = cursor.fetchall()  # Fetchall to get all matching records
+
         cursor.close()
         conn.close()
 
-        # Ensure the JSON response matches the expected structure in your JavaScript
-        starships = [
-            {'id': row[0], 'name': row[1], 'model': row[2], 'manufacturer': row[3], 'cargo_capacity': row[4]}
-            for row in starships_info
-        ]
-        return jsonify(starships)
+        if starships_info:
+            return jsonify(starships_info)
+        else:
+            return jsonify({'error': 'Starships not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
