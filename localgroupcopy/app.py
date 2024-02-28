@@ -56,7 +56,6 @@ def starships_info():
     try:
         request_data = request.get_json()
         search = request_data.get('search', '')
-        starships_name = request_data.get('starships', '')
         min_cargo_capacity = request_data.get('minCargoCapacity', 0)
         max_cargo_capacity = request_data.get('maxCargoCapacity', "Infinity")
 
@@ -74,9 +73,8 @@ def starships_info():
             query += " AND cargo_capacity <= %s"
             params.append(max_cargo_capacity)
 
-        cursor.execute(query, ('%' + starships_name + '%', min_cargo_capacity, max_cargo_capacity))
-        starships_info = cursor.fetchall()  # Fetchall to get all matching records
-
+        cursor.execute(query, params)
+        starships_info = cursor.fetchall()
         cursor.close()
         conn.close()
 
@@ -86,6 +84,7 @@ def starships_info():
             return jsonify({'error': 'Starships not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 
 if __name__ == '__main__':
