@@ -79,8 +79,10 @@ def starships_info():
         cursor.close()
         conn.close()
 
-        starships = [{'name': row[0], 'cargo_capacity': row[1]} for row in starships_info]  # Adjust based on your table structure
-        return jsonify(starships)
+        if starships_info:
+            return jsonify(starships_info)
+        else:
+            return jsonify({'error': 'Starships not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
