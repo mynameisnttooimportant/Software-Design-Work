@@ -26,6 +26,27 @@ def species():
 def starships():
     return render_template('starships.html')
 
+@app.route('/species-info', methods=['POST'])
+def species_info():
+    try:
+        request_data = request.get_json()
+        species_name = request_data.get('species')
+
+        conn = connect_to_db()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM species WHERE name = %s", (species_name,))
+        species_info = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        if species_info:
+            return jsonify(species_info)
+        else:
+            return jsonify({'error': 'Species not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/starships-info', methods=['POST'])
 def starships_info():
     try:
