@@ -3,6 +3,7 @@ import psycopg2
 
 app = Flask(__name__)
 
+# Function to establish connection to PostgreSQL
 def connect_to_db():
     try:
         conn = psycopg2.connect(
@@ -18,14 +19,17 @@ def connect_to_db():
         print(f"Error connecting to database: {e}")
         return None
 
+# Route for species page
 @app.route('/species')
 def species():
     return render_template('species.html')
 
+# Route for starships page
 @app.route('/starships')
 def starships():
     return render_template('starships.html')
 
+# Route for fetching species information
 @app.route('/species-info', methods=['POST'])
 def species_info():
     try:
@@ -46,36 +50,33 @@ def species_info():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
+# Updated route for fetching starships information with cargo capacity filtering
 @app.route('/starships-info', methods=['POST'])
 def starships_info():
     try:
         request_data = request.get_json()
-        search = request_data.get('search', '')
-        min_cargo_capacity = request_data.get('minCargoCapacity', 0)
-        max_cargo_capacity = request_data.get('maxCargoCapacity', "Infinity")
+        starships_name = request_data.get('starships', '')
+        min_cargo_capacity = request_data.get('minCargoCapacity', 0)  # Default to 0 if not provided
+        max_cargo_capacity = request_data.get('maxCargoCapacity', float('inf'))  # Default to infinity if not provided
 
         conn = connect_to_db()
         cursor = conn.cursor()
-
         query = """
         SELECT * FROM starships 
-        WHERE name = %s 
-        AND cargo_capacity >= %s
+        WHERE name ILIKE %s 
+        AND cargo_capacity >= %s 
+        AND cargo_capacity <= %s;
         """
-        params = [f"%{search}%", min_cargo_capacity]
+        cursor.execute(query, ('%' + starships_name + '%', min_cargo_capacity, max_cargo_capacity))
+        starships_info = cursor.fetchall()  # Fetchall to get all matching records
 
-        if max_cargo_capacity != "Infinity":
-            query += " AND cargo_capacity <= %s"
-            params.append(max_cargo_capacity)
-
-        cursor.execute(query, params)
-        starships_info = cursor.fetchall()
         cursor.close()
         conn.close()
 
-        starships = [{'name': row[0], 'cargo_capacity': row[1]} for row in starships_info]  # Adjust based on your table structure
-        return jsonify(starships)
+        if starships_info:
+            return jsonify(starships_info)
+        else:
+            return jsonify({'error': 'Starships not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
