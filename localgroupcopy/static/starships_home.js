@@ -1,31 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var starshipsList = document.getElementById('starships-list');
-    var searchInput = document.getElementById('search');
-    var filterBtn = document.getElementById('filter-btn');
-    var minCargoCapacity = document.getElementById('min-cargo-capacity');
-    var maxCargoCapacity = document.getElementById('max-cargo-capacity');
+    const starshipsList = document.getElementById('starships-list');
+    const searchInput = document.getElementById('search');
+    const filterBtn = document.getElementById('filter-btn');
+    const minCargoCapacity = document.getElementById('min-cargo-capacity');
+    const maxCargoCapacity = document.getElementById('max-cargo-capacity');
 
-    // Event listener for click actions within the starships list
-    starshipsList.addEventListener('click', function(event) {
-        if (event.target.tagName === 'LI') {
-            var starshipName = event.target.dataset.starships;
-            toggleStarshipInformation(starshipName, event.target);
-        }
-    });
+    function fetchAndDisplayStarships() {
+        const searchValue = searchInput.value.toLowerCase();
+        const minCapacity = minCargoCapacity.value;
+        const maxCapacity = maxCargoCapacity.value;
 
-    // Event listener for the search functionality
-    searchInput.addEventListener('input', function() {
-        applyFilters();
-    });
-
-    // Event listener for the filter button to apply cargo capacity filters
-    filterBtn.addEventListener('click', function() {
-        applyFilters();
-    });
-
-    // Apply both search and filter criteria
-    function applyFilters() {
-        var searchValue = searchInput.value.toLowerCase();
         fetch('/starships-info', {
             method: 'POST',
             headers: {
@@ -33,60 +17,35 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({
                 search: searchValue,
-                minCargoCapacity: minCargoCapacity.value || 0,
-                maxCargoCapacity: maxCargoCapacity.value || Number.MAX_SAFE_INTEGER
+                minCargoCapacity: minCapacity,
+                maxCargoCapacity: maxCapacity
             })
         })
         .then(response => response.json())
-        .then(data => {
-            updateStarshipsList(data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        .then(data => displayStarships(data))
+        .catch(error => console.error('Error:', error));
     }
 
-    // Update the starships list based on the fetched data
-    function updateStarshipsList(data) {
-        starshipsList.innerHTML = ''; // Clear the current list
-        data.forEach(starship => {
-            var li = document.createElement('li');
-            li.textContent = starship.name; // Assuming 'name' is a property of your data
-            li.dataset.starships = starship.name; // Store the starship name for search
-            li.dataset.cargoCapacity = starship.cargo_capacity; // Store cargo capacity for filtering
+    function displayStarships(starships) {
+        starshipsList.innerHTML = ''; // Clear current list
+        starships.forEach(starship => {
+            const li = document.createElement('li');
+            li.textContent = starship.name; // Display starship name
+            li.dataset.starships = starship.name; // for search and click functionality
+            li.addEventListener('click', () => displayStarshipDetails(starship)); // Assuming starship object has all details needed
             starshipsList.appendChild(li);
         });
     }
 
-    // Toggle the display of starship information
-    function toggleStarshipInformation(starshipName, targetElement) {
-        var existingInfoBox = targetElement.nextElementSibling;
-        if (existingInfoBox && existingInfoBox.classList.contains('info-box')) {
-            existingInfoBox.remove();
-        } else {
-            fetchStarshipInformation(starshipName, targetElement);
-        }
+    function displayStarshipDetails(starship) {
+        alert(`Starship: ${starship.name}\nCargo Capacity: ${starship.cargo_capacity}`);
+        // Replace this alert with a more sophisticated way of displaying details as needed
     }
 
-    // Fetch detailed starship information
-    function fetchStarshipInformation(starshipName, targetElement) {
-        // This example assumes the starship's detailed information is fetched based on its name.
-        // You might need to adjust it to use an ID or another identifier if necessary.
-        fetch('/starships-info', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ starships: starshipName })
-        })
-        .then(response => response.json())
-        .then(data => {
-            displayStarshipInformation(data, targetElement);
-        })
-        .catch(error => {
-            console.error('Error fetching starship information:', error);
-        });
-    }
+    // Trigger fetching and displaying of starships on search input or filter button click
+    searchInput.addEventListener('input', fetchAndDisplayStarships);
+    filterBtn.addEventListener('click', fetchAndDisplayStarships);
 
-    // Display starship information
-    function displayStar
+    // Initial fetch to display starships
+    fetchAndDisplayStarships();
+});
