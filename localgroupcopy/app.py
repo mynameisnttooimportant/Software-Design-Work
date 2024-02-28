@@ -78,10 +78,6 @@ def starships_info():
         starships_info = cursor.fetchall()
         cursor.close()
         conn.close()
-        
-        starships_info = cursor.fetchall()
-        for column in starships_info:
-            if column = ""
 
         starships = [{'name': row[0], 'cargo_capacity': row[1]} for row in starships_info]  # Adjust based on your table structure
         return jsonify(starships)
