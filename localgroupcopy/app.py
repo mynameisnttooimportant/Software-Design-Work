@@ -55,30 +55,38 @@ def species_info():
 def starships_info():
     try:
         request_data = request.get_json()
-        starships_name = request_data.get('starships', '')
-        min_cargo_capacity = request_data.get('minCargoCapacity', 0)  # Default to 0 if not provided
-        max_cargo_capacity = request_data.get('maxCargoCapacity', float('inf'))  # Default to infinity if not provided
+        search = request_data.get('search', '')
+        min_cargo_capacity = request_data.get('minCargoCapacity', 0)
+        max_cargo_capacity = request_data.get('maxCargoCapacity', "Infinity")
 
         conn = connect_to_db()
         cursor = conn.cursor()
-        query = """
-        SELECT * FROM starships 
-        WHERE name ILIKE %s 
-        AND cargo_capacity >= %s 
-        AND cargo_capacity <= %s;
-        """
-        cursor.execute(query, ('%' + starships_name + '%', min_cargo_capacity, max_cargo_capacity))
-        starships_info = cursor.fetchall()  # Fetchall to get all matching records
 
+        query = """
+        SELECT id, name, model, manufacturer, cargo_capacity FROM starships 
+        WHERE name ILIKE %s 
+        AND cargo_capacity >= %s
+        """
+        params = [f"%{search}%", min_cargo_capacity]
+
+        if max_cargo_capacity != "Infinity":
+            query += " AND cargo_capacity <= %s"
+            params.append(max_cargo_capacity)
+
+        cursor.execute(query, params)
+        starships_info = cursor.fetchall()
         cursor.close()
         conn.close()
 
-        if starships_info:
-            return jsonify(starships_info)
-        else:
-            return jsonify({'error': 'Starships not found'}), 404
+        # Ensure the JSON response matches the expected structure in your JavaScript
+        starships = [
+            {'id': row[0], 'name': row[1], 'model': row[2], 'manufacturer': row[3], 'cargo_capacity': row[4]}
+            for row in starships_info
+        ]
+        return jsonify(starships)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5106)
