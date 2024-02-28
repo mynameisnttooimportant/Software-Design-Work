@@ -60,7 +60,7 @@ def starships_info():
 
         query = """
         SELECT * FROM starships 
-        WHERE name ILIKE %s 
+        WHERE name = %s 
         AND cargo_capacity >= %s
         """
         params = [f"%{search}%", min_cargo_capacity]
