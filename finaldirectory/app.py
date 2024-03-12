@@ -79,7 +79,7 @@ def fetch_category_element_names():
     category = request_data.get('fetch_from_category')
     sort_by = request_data.get('sort_by', 'name')  # Default sort criteria
     
-    query = f"SELECT name FROM {category} ORDER BY {sort_by};"
+    query = f"SELECT name FROM {category} ORDER BY \"{sort_by}\";"
     
     
     conn = connect_to_db()
