@@ -1,63 +1,24 @@
-/// VARIABLES CREATED
-var category; // Should be initialized with server-side data if not already
+
+//VARIABLES CREATED
+//var category
 
 var searchInput = document.getElementById('search');
-var elementsList = document.getElementById('search-list');
-var criteriaFilterSelector = document.getElementById('criteria_filter_selector');
-var sortCriteriaSelector = document.getElementById('sort_criteria');
+var elementsList = document.getElementById('search-list'); // Gets list element
 
-// Fetch criteria options and initialize page
+// Wait until DOM content loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Assuming category and criteriaOptions are injected into the page as global variables
-    loadCriteriaOptions();
-    addEventListeners();
-    fetchAndDisplayElements(); // Initial fetch to display elements
+    buildCategoryElementList(category, elementsList); // Generates list of category elements
+
+    addEventListenersToElementList(category, elementsList); // adds event listeners for clicking on elements
+    
+    loadCriteria(); // loads filter criteria into dropdowns
+    
+    searchInput.addEventListener('input', function() {
+        search(searchInput,category,elementsList);
+    });
 });
 
-function addEventListeners() {
-    searchInput.addEventListener('input', fetchAndDisplayElements);
-    sortCriteriaSelector.addEventListener('change', fetchAndDisplayElements);
 
-    // Add event listeners for other interactive elements as needed
-}
-
-function loadCriteriaOptions() {
-    // Parse and load filter criteria options, this part is unchanged
-    // Assuming criteriaOptions are injected into the page as a global variable
-    var criteria = criteriaOptions.split(",");
-    criteria.forEach(function(criterion) {
-        var option = new Option(criterion, criterion);
-        criteriaFilterSelector.appendChild(option);
-        sortCriteriaSelector.appendChild(option.cloneNode(true)); // Also add to sort selector
-    });
-}
-
-function fetchAndDisplayElements() {
-    var sortCriteria = sortCriteriaSelector.value;
-    var searchText = searchInput.value;
-
-    fetch('/fetch-category-element-names', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            fetch_from_category: category,
-            sort_by: sortCriteria, // Sorting criteria
-            search_text: searchText // Search/filter text if any
-        })
-    })
-    .then(response => response.json())
-    .then(elements => {
-        elementsList.innerHTML = ''; // Clear current list
-        elements.forEach(element => {
-            var li = document.createElement('li');
-            li.textContent = element;
-            elementsList.appendChild(li);
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching elements:', error);
-    });
-}
 
 
 
@@ -483,4 +444,5 @@ function setListItemDisplay(item,doDisplay) {
 
     }
 }
+
 
