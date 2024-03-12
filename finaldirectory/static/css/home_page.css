@@ -1,0 +1,122 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff
+}
+
+.container {
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+header {
+    background-color: #1d2021;
+    color: #fff;
+}
+
+header .container {
+    font-size: 30px;
+}
+
+.search {
+    border-radius: 30px;
+    border: 3px solid #1d2021;
+    padding: 5px 5px 5px 25px;
+    width: 600px;
+    height: 30px;
+    position: relative;
+    top: 15px;
+}
+
+.button-characters {
+    font-weight: bold;
+    font-size: 300%;
+    text-decoration: none;
+    padding: 100px 30px 100px 30px;
+    border: 3px solid #1d2021;
+    border-radius: 25px;
+    color: #fbf1c7;
+    background-color: #282828;
+    position: relative;
+    top: 147px;
+} 
+
+.button-characters:hover {
+    color: purple;
+    background-color: #32302f;
+}
+
+.button-starships {
+    font-weight: bold;
+    font-size: 300%;
+    text-decoration: none;
+    padding: 100px 50px 100px 50px;
+    border: 3px solid #1d2021;
+    border-radius: 25px;
+    color: #fbf1c7;
+    background-color: #282828;
+    position: relative;
+    top: 147px;
+} 
+
+.button-starships:hover {
+    color: cyan;
+    background-color: #32302f;
+}
+
+.button-species {
+    font-weight: bold;
+    font-size: 300%;
+    text-decoration: none;
+    padding: 100px 65px 100px 65px;
+    border: 3px solid #1d2021;
+    border-radius: 25px;
+    color: #fbf1c7;
+    background-color: #282828;
+    position: relative;
+    top: 147px;
+} 
+
+.button-species:hover {
+    color: green;
+    background-color: #32302f;
+}
+
+.button-planets {
+    font-weight: bold;
+    font-size: 300%;
+    text-decoration: none;
+    padding: 100px 70px 100px 70px;
+    border: 3px solid #1d2021;
+    border-radius: 25px;
+    color: #fbf1c7;
+    background-color: #282828;
+    position: relative;
+    top: 355px;
+} 
+
+.button-planets:hover {
+    color: orange;
+    background-color: #32302f;
+}
+
+.button-vehicles {
+    font-weight: bold;
+    font-size: 300%;
+    text-decoration: none;
+    padding: 100px 65px 100px 65px;
+    border: 3px solid #1d2021;
+    border-radius: 25px;
+    color: #fbf1c7;
+    background-color: #282828;
+    position: relative;
+    top: 355px;
+} 
+
+.button-vehicles:hover {
+    color: red;
+    background-color: #32302f;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Filter Test!</title>
+    
+    <link rel="stylesheet" href="/static/css/style.css">
+  </head>
+  <body>
+    <script>
+        //moves variables from python to js
+        var criteriaOptions = "{{ data.criteriaOptions }}";
+        var criteriaOptions_dataTypes = "{{ data.criteriaOptions_dataTypes }}";
+        var category = "{{category}}";
+    </script>
+	<script src="/static/js/index.js"></script>
+
+
+    <h4 id="filter_category_title"> {{category}} </h4>
+    <select name="Category" onchange="window.location.href=this.value;" id="filter_category_selector">
+      <option selected disabled value> -- Change Category --</option>
+      <option id="filter_category_selector_characters" value="./characters">Characters</option>
+      <option id="filter_category_selector_planets" value="./planets">      Planets</option>
+      <option id="filter_category_selector_species" value="./species">      Species</option>
+      <option id="filter_category_selector_vehicles" value="./vehicles">    Vehicles</option>
+      <option id="filter_category_selector_starships" value="./starships">  Starships</option>
+    </select>
+
+    <br>
+
+    <select onchange="filterCriteriaSelected();" name="Criteria" id="criteria_filter_selector">
+        <option selected disabled value> -- Select a Criteria -- </option>
+    </select>
+
+    <div id="criteria_filter_options">
+        <div id="criteria_filter_options_real" class="criteria_filter_options" style="display: none;">
+            <select id="criteria_filter_options_dropdown_real">
+              <option value="filter_real_greaterThan">Greater Than</option>
+              <option value="filter_real_lessThan">Less Than</option>
+              <option value="filter_real_is">Is</option>
+            </select>
+
+            <input type="number" id="criteria_filter_options_entry_real">
+        </div>
+
+        <div id="criteria_filter_options_text" class="criteria_filter_options" style="display: none;">
+            <select id="criteria_filter_options_dropdown_text">
+              <option value="filter_text_contains">Contains</option>
+              <option value="filter_text_startsWith">Starts With</option>
+              <option value="filter_text_endsWith">Ends With</option>
+            </select>
+
+            <input type="text" id="criteria_filter_options_entry_text">
+        </div>
+    </div>
+
+    <button type="button" onclick="filterCriteriaAdded();">Add Filter</button>
+
+    <br>
+
+    <div id="criteria_filters"></div>
+
+    <br>
+
+    <button type="button" onclick="location.reload();">Clear</button> <!-- reloads page -->
+
+    <br>
+
+    <button type="button" onclick="search();">Search</button>
+  </body>
+</html>
+

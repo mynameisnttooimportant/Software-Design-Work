@@ -1,0 +1,22 @@
+#filter_category_title {
+    text-transform: uppercase;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 30;
+    padding: 0;
+}
+
+button {
+    color: #333;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #999;
+    color: #111;
+}

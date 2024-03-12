@@ -1,0 +1,61 @@
+Alderaan,24,364,12500,Temperate,1 Standard,"Grasslands, Mountains",40,2000000000
+Yavin IV,24,4818,10200,"Temperate, Tropical",1 Standard,"Jungle, Rainforests",8,1000
+Hoth,23,549,7200,Frozen,1.1 Standard,"Tundra, Ice Caves, Mountain Ranges",100,0
+Dagobah,23,341,8900,Murky,NA,"Swamp, Jungles",8,0
+Bespin,12,5110,118000,Temperate,"1.5 (Surface), 1 Standard (Cloud City)",Gas Giant,0,6000000
+Endor,18,402,4900,Temperate,0.85 Standard,"Forests, Mountains, Lakes",8,30000000
+Naboo,26,312,12120,Temperate,1 Standard,"Grassy Hills, Swamps, Forests, Mountains",12,4500000000
+Coruscant,24,368,12240,Temperate,1 Standard,"Cityscape, Mountains",0,1000000000000
+Kamino,27,463,19720,Temperate,1 Standard,Ocean,100,1000000000
+Geonosis,30,256,11370,"Temperate, Arid",0.9 Standard,"Rock, Desert, Mountain, Barren",5,100000000000
+Utapau,27,351,12900,"Temperate, Arid, Windy",1 Standard,"Scrublands, Savanna, Canyons, Sinkholes",0.9,95000000
+Mustafar,36,412,4200,Hot,1 Standard,"Volcanoes, Lava Rivers, Mountains, Caves",0,20000
+Kashyyyk,26,381,12765,Tropical,1 Standard,"Jungle, Forests, Lakes, Rivers",60,45000000
+Polis Massa,24,590,0,Artificial Temperate ,0.56 Standard,Airless Asteroid,0,1000000
+Mygeeto,12,167,10088,Frigid,1 Standard,"Glaciers, Mountains, Ice Canyons",0,19000000
+Felucia,34,231,9100,"Hot, Humid",0.75 Standard,Fungus Forests,0,8500000
+Cato Neimoidia,25,278,0,"Temperate, Moist",1 Standard,"Mountains, Fields, Forests, Rock Arches",0,10000000
+Saleucami,26,392,14920,Hot,NA,"Caves, Desert, Mountains, Volcanoes",0,1400000000
+Stewjon,0,0,0,Temperate,1 Standard,Grass,0,0
+Eriadu,24,360,13490,Polluted,1 Standard,Cityscape,0,22000000000
+Corellia,25,329,11000,Temperate,1 Standard,"Plains, Urban, Hills, Forests",70,3000000000
+Rodia,29,305,7549,Hot,1 Standard,"Jungles, Oceans, Urban, Swamps",60,1300000000
+Nal Hutta,87,413,12150,Temperate,1 Standard,"Urban, Oceans, Swamps, Bogs",0,7000000000
+Dantooine,25,378,9830,Temperate,1 Standard,"Oceans, Savannas, Mountains, Grasslands",0,1000
+Bestine IV,26,680,6400,Temperate,NA,"Rocky Islands, Oceans",98,62000000
+Ord Mantell,26,334,14050,Temperate,1 Standard,"Plains, Seas, Mesas",10,4000000000
+NA,0,0,0,NA,NA,NA,0,0
+Trandosha,25,371,0,Arid,0.62 Standard,"Mountains, Seas, Grasslands, Deserts",0,42000000
+Socorro,20,326,0,Arid,1 Standard,"Deserts, Mountains",0,300000000
+Mon Cala,21,398,11030,Temperate,1 Standard,"Oceans, Reefs, Islands",100,27000000000
+Chandrila,20,368,13500,Temperate,1 Standard,"Plains, Forests",40,1200000000
+Sullust,20,263,12780,Superheated,1 Standard,"Mountains, Volcanoes, Rocky Deserts",5,18500000000
+Toydaria,21,184,7900,Temperate,1 Standard,"Swamps, Lakes",0,11000000
+Malastare,26,201,18880,"Arid, Temperate, Tropical",1.56,"Swamps, Deserts, Jungles, Mountains",0,2000000000
+Dathomir,24,491,10480,Temperate,0.9,"Forests, Deserts, Savannas",0,5200
+Ryloth,30,305,10600,"Temperate, Arid, Subartic",1 Standard,"Mountains, Valleys, Deserts, Tundra",5,1500000000
+Aleen Minor,0,0,0,NA,NA,NA,0,0
+Vulpter,22,391,14900,"Temperate, Artic",1 Standard,"Urban, Barren",0,421000000
+Troiken,0,0,0,NA,NA,"Desert, Tundra, Rainforests, Mountains",0,0
+Tund,48,1770,12190,NA,NA,"Barren, Ash",0,0
+Haruun Kal,25,383,10120,Temperate,0.98,"Toxic Cloudsea, Plateaus, Volcanoes",0,705300
+Cerea,27,386,0,Temperate,1 Standard,Verdant,20,450000000
+Glee Anselm,33,206,15600,"Tropical, Temperate",1 Standard,"Lakes, Islands, Swamps, Seas",80,500000000
+Iridonia,29,413,0,NA,NA,"Rocky Canyons, Acid Pools",0,0
+Tholoth,0,0,0,NA,NA,NA,0,0
+Iktotch,22,481,0,"Arid, Rocky, Windy",1 Standard,Rocky,0,0
+Quermia,0,0,0,NA,NA,NA,0,0
+Dorin,22,409,13400,Temperate,1 Standard,NA,0,0
+Champala,27,318,0,Temperate,1 Standard,"Oceans, Rainforests, Plateaus",0,3500000000
+Mirial,0,0,0,NA,NA,Deserts,0,0
+Serenno,0,0,0,NA,NA,"Rainforests, Rivers, Mountains",0,0
+Concord Dawn,0,0,0,NA,NA,"Jungles, Forests, Deserts",0,0
+Zolan,0,0,0,NA,NA,NA,0,0
+Ojom,0,0,0,Frigid,NA,"Oceans, Glaciers",100,500000000
+Skako,27,384,0,Temperate,1 Standard,"Urban, Vines",0,500000000000
+Muunilinst,28,412,13800,Temperate,1 Standard,"Plains, Forests, Hills, Mountains",25,5000000000
+Shili,0,0,0,Temperate,1 Standard,"Cities, Savannahs, Seas, Plains",0,0
+Kalee,23,378,13850,"Arid, Temperate, Tropical",1 Standard,"Rainforests, Cliffs, Canyons, Seas",0,4000000000
+Umbara,0,0,0,NA,NA,NA,0,0
+Tatooine,23,304,10465,Arid,1 Standard,Desert,1,200000
+Jakku,0,0,0,NA,NA,Deserts,0,0

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Characters</title>
+    <link rel="stylesheet" href="../static/characters.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Characters</h1>
+            <nav>
+                <ul>
+                    <a href="/starships" class="starships-button">Starships</a>
+                    <a href="/species" class="species-button">Species</a>
+                    <a href="/planets" class="planets-button">Planets</a>
+                    <a href="/vehicles" class="vehicles-button">Vehicles</a>
+                </ul>
+            </nav>
+        </div>
+        <a href="/" class="home-button" style="position: absolute; left:36.35cm; top:2.6cm;">Home</a>
+    </header>
+    <main>
+        <div class="container">
+            <input type="text" id="search" placeholder="Search characters...">
+	    <!-- <div id="characters-info-container"></div> -->
+            <div id="dropdown-container"></div>
+            <ul id="characters-list">
+                <!-- Static characters list -->
+                <li data-characters="Luke Skywalker">Luke Skywalker</li>
+                <li data-characters="C-3PO">C-3PO</li>
+                <li data-characters="R2-D2">R2-D2</li>
+                <li data-characters="Darth Vader">Darth Vader</li>
+                <li data-characters="Leia Organa">Leia Organa</li>
+                <li data-characters="Owen Lars">Owen Lars</li>
+                <li data-characters="Beru Whitesun Lars">Beru Whitesun Lars</li>
+                <li data-characters="R5-D4">R5-D4</li>
+                <li data-characters="Biggs Darklighter">Biggs Darklighter</li>
+                <li data-characters="Obi-Wan Kenobi">Obi-Wan Kenobi</li>
+                <li data-characters="Anakin Skywalker">Anakin Skywalker</li>
+                <li data-characters="Wilhuff Tarkin">Wilhuff Tarkin</li>
+                <li data-characters="Chewbacca">Chewbacca</li>
+                <li data-characters="Han Solo">Han Solo</li>
+                <li data-characters="Greedo">Greedo</li>
+                <li data-characters="Jabba Desilijic Tiure">Jabba Desilijic Tiure</li>
+                <li data-characters="Wedge Antilles">Wedge Antilles</li>
+                <li data-characters="Jek Tono Porkins">Jek Tono Porkins</li>
+                <li data-characters="Yoda">Yoda</li>
+                <li data-characters="Palpatine">Palpatine</li>
+                <li data-characters="Boba Fett">Boba Fett</li>
+                <li data-characters="IG-88">IG-88</li>
+                <li data-characters="Bossk">Bossk</li>
+                <li data-characters="Lando Calrissian">Lando Calrissian</li>
+                <li data-characters="Lobot">Lobot</li>
+                <li data-characters="Ackbar">Ackbar</li>
+                <li data-characters="Mon Mothma">Mon Mothma</li>
+                <li data-characters="Arvel Crynyd">Arvel Crynyd</li>
+                <li data-characters="Wicket Systri Warrick">Wicket Systri Warrick</li>
+                <li data-characters="Nien Nunb">Nien Nunb</li>
+                <li data-characters="Qui-Gon Jinn">Nien Nunb</li>
+                <li data-characters="Nute Gunray">Nute Gunray</li>
+                <li data-characters="Finis Valorum">Finis Valorum</li>
+                <li data-characters="Jar Jar Binks">Jar Jar Binks</li>
+                <li data-characters="Roos Tarpals">Jar Jar Binks</li></li>
+                <li data-characters="Rugor Nass">Rugor Nass</li>
+                <li data-characters="Ric Olié">Ric Olié</li>
+                <li data-characters="Watto">Watto</li>
+                <li data-characters="Sebulba">Sebulba</li>
+                <li data-characters="Quarsh Panaka">Quarsh Panaka</li>
+                <li data-characters="Shmi Skywalker">Shmi Skywalker</li>
+                <li data-characters="Darth Maul">Darth Maul</li>
+                <li data-characters="Bib Fortuna">Bib Fortuna</li>
+                <li data-characters="Ayla Secura">Ayla Secura</li>
+                <li data-characters="Dud Bolt">Dud Bolt</li>
+                <li data-characters="Gasgano">Gasgano</li>
+                <li data-characters="Ben Quadinaros">Ben Quadinaros</li>
+                <li data-characters="Mace Windu">Mace Windu</li>
+                <li data-characters="Ki-Adi-Mundi">Ki-Adi-Mundi</li>
+                <li data-characters="Kit Fisto">Kit Fisto</li>
+                <li data-characters="Eeth Koth">Eeth Koth</li>
+                <li data-characters="Adi Gallia">Adi Gallia</li>
+                <li data-characters="Saesee Tiin">Saesee Tiin</li>
+                <li data-characters="Yarael Poof">Yarael Poof</li>
+                <li data-characters="Plo Koon">Plo Koon</li>
+                <li data-characters="Mas Amedda">Mas Amedda</li>
+                <li data-characters="Gregar Typho">Gregar Typho</li>
+                <li data-characters="Cordé">Cordé</li>
+                <li data-characters="Cliegg Lars">Cliegg Lars</li>
+                <li data-characters="Poggle the Lesser">Poggle the Lesser</li>
+                <li data-characters="Luminara Unduli">Luminara Unduli</li>
+                <li data-characters="Barriss Offee">Barriss Offee</li>
+                <li data-characters="Dormé">Dormé</li>
+                <li data-characters="Dooku">Dooku</li>
+                <li data-characters="Bail Prestor Organa">Bail Prestor Organa</li>
+                <li data-characters="Jango Fett">Jango Fett</li>
+                <li data-characters="Zam Wesell">Zam Wesell</li>
+                <li data-characters="Dexter Jettster">Dexter Jettster</li>
+                <li data-characters="Lama Su">Lama Su</li>
+                <li data-characters="Taun We">Taun We</li>
+                <li data-characters="Jocasta Nu">Jocasta Nu</li>
+                <li data-characters="Ratts Tyerell">Ratts Tyerell</li>
+                <li data-characters="R4-P17">R4-P17</li>
+                <li data-characters="Wat Tambor">Wat Tambor</li>
+                <li data-characters="San Hill">San Hill</li>
+                <li data-characters="Shaak Ti">Shaak Ti</li>
+                <li data-characters="Grievous">Grievous</li>
+                <li data-characters="Tarfful">Tarfful</li>
+                <li data-characters="Raymus Antilles">Raymus Antilles</li>
+                <li data-characters="Sly Moore">Sly Moore</li>
+                <li data-characters="Tion Medon">Tion Medon</li>
+                <li data-characters="Finn">Finn</li>
+                <li data-characters="Rey">Rey</li>
+                <li data-characters="Poe Dameron">Poe Dameron</li>
+                <li data-characters="BB8">BB8</li>
+                <li data-characters="Captain Phasma">Captain Phasma</li>
+                <li data-characters="Padmé Amidala">Padmé Amidala</li>
+                <!-- End of static species list -->
+            </ul>
+        </div>
+    </main>
+    <script src="../static/characters.js"></script>
+</body>
+</html>
