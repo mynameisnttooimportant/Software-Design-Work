@@ -4,14 +4,24 @@
 
 var searchInput = document.getElementById('search');
 var elementsList = document.getElementById('search-list'); // Gets list element
+var sortCriteriaSelector = document.getElementById('sort-criteria');
+
 
 // Wait until DOM content loaded
 document.addEventListener('DOMContentLoaded', function() {
+    
     buildCategoryElementList(category, elementsList); // Generates list of category elements
 
     addEventListenersToElementList(category, elementsList); // adds event listeners for clicking on elements
     
     loadCriteria(); // loads filter criteria into dropdowns
+
+    sortCriteriaSelector.addEventListener('change', function() {
+        // Re-fetch and rebuild the element list using the selected sort criteria.
+        // You might want to extract the sorting direction as well if your UI provides for it.
+        var selectedSortCriteria = sortCriteriaSelector.value;
+        buildCategoryElementList(category, elementsList, selectedSortCriteria);
+    });
     
     searchInput.addEventListener('input', function() {
         search(searchInput,category,elementsList);
@@ -25,27 +35,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
  //fetches names of all elements in a category (e.g. all species, all characters, etc.)
 //then adds these names to the display as list elements
-function buildCategoryElementList(fetchingFromCategory,elementsList) {
-
+// Add a sort parameter to the function.
+function buildCategoryElementList(fetchingFromCategory, elementsList, sortCriteria = 'name', sortDirection = 'ASC') {
     fetch('/fetch-category-element-names', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            fetch_from_category : fetchingFromCategory
+            fetch_from_category: fetchingFromCategory,
+            sort_by: sortCriteria,
+            sort_direction: sortDirection // Include sorting parameters
         })
     })
     .then(response => response.json())
     .then(data => {
-        // Call function to display information
-        buildCategoryElementListHTML(data,elementsList);
+        // Clears the current list and rebuilds it with sorted data
+        elementsList.innerHTML = ''; // Clear current list elements before adding new ones
+        buildCategoryElementListHTML(data, elementsList);
     })
     .catch(error => {
         console.error('Error:', error);
     });
-
 }
+
 
 //adds list elements to the page based on what's returned by the sql query
 function buildCategoryElementListHTML(elements,elementsList){
