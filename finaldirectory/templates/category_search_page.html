@@ -31,28 +31,32 @@
             <br>
 
             <label for="criteria_filter_selector">Filter Criteria:</label>
-            <select onchange="filterCriteriaSelected();" name="Criteria" id="criteria_filter_selector">
-                <option selected disabled value> -- Select a Criteria for Filtering -- </option>
-                <!-- Filter Options will be dynamically filled -->
+            <select onchange="filterCriteriaSelected();" id="criteria_filter_selector">
+                <option selected disabled value> -- Select a Criteria -- </option>
+                <!-- Dynamically filled with options -->
             </select>
 
             <br>
-            <br>
 
-            <div>
-                <label for="sort_criteria">Sort Criteria:</label>
-                <select id="sort_criteria">
-                    <option value="">-- Select --</option>
-                    <!-- Sort Options will be dynamically filled based on the same criteria available for filtering -->
-                </select>
-
-                <label for="sort_direction">Sort Direction:</label>
-                <select id="sort_direction">
-                    <option value="asc">Ascending</option>
-                    <option value="desc">Descending</option>
-                </select>
+            <div id="criteria_filter_options" style="display: none;">
+                <!-- Dynamic options based on selected criteria -->
             </div>
 
+            <br>
+
+            <label for="sort_criteria">Sort Criteria:</label>
+            <select onchange="sortCriteriaSelected();" id="sort_criteria">
+                <option value="">-- None --</option>
+                <!-- Dynamically filled with the same options as filter criteria -->
+            </select>
+
+            <label for="sort_direction">Sort Direction:</label>
+            <select id="sort_direction">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+
+            <br>
             <br>
 
             <button type="button" onclick="applyFilters();">Apply Filters</button>
@@ -61,7 +65,7 @@
             <br>
             <br>
 
-            <button type="button" onclick="location.reload();">Clear All</button>
+            <button type="button" onclick="clearAll();">Clear</button>
 
             <br>
             <br>
@@ -72,12 +76,6 @@
         </div>
     </main>
 
-    <script>
-        // Passes vars from Python to JS
-        var criteriaOptions = "{{ data.criteriaOptions }}";
-        var criteriaOptions_dataTypes = "{{ data.criteriaOptions_dataTypes }}";
-        var category = "{{category}}";
-    </script>
     <script src="../static/js/category_search_page.js"></script>
 </body>
 </html>
