@@ -58,6 +58,18 @@
                 </div>
             </div>
 
+            <!-- Sorting Options -->
+            <div id="sorting_options">
+                <select id="sort_criteria">
+                    <!-- Dynamically filled with the same options as filter criteria -->
+                </select>
+                <input type="radio" id="sort_asc" name="sort_direction" value="asc" checked>
+                <label for="sort_asc">Ascending</label>
+                <input type="radio" id="sort_desc" name="sort_direction" value="desc">
+                <label for="sort_desc">Descending</label>
+                <button type="button" id="sort_button">Sort</button>
+            </div>
+
             <br>
 
             <button type="button" onclick="filterCriteriaAdded();">Add Filter</button>
@@ -74,16 +86,14 @@
             <br>
             <br>
 
-            <div id="dropdown-container"></div>
-                <ul id="search-list">
-                    <!-- List of elements -->
-                </ul>
-            </div>
+            <ul id="search-list">
+                <!-- List of elements -->
+            </ul>
+        </div>
     </main>
 
     <script>
         //moves vars from python to js
-
         var criteriaOptions = "{{ data.criteriaOptions }}";
         var criteriaOptions_dataTypes = "{{ data.criteriaOptions_dataTypes }}";
         var category = "{{category}}";
