@@ -7,19 +7,36 @@ var elementsList = document.getElementById('search-list'); // Gets list element
 
 // Wait until DOM content loaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Original functionality
     buildCategoryElementList(category, elementsList); // Generates list of category elements
-
-    addEventListenersToElementList(category, elementsList); // adds event listeners for clicking on elements
-    
-    loadCriteria(); // loads filter criteria into dropdowns
-    
+    addEventListenersToElementList(category, elementsList); // Adds event listeners for clicking on elements
+    loadCriteria(); // Loads filter criteria into dropdowns
     searchInput.addEventListener('input', function() {
-        search(searchInput, category, elementsList, sortCriteriaSelector.value);
+        search(searchInput, category, elementsList);
     });
+
+    // Sort criteria selector event listener
+    sortCriteriaSelector.addEventListener('change', function() {
+        var selectedSortCriteria = sortCriteriaSelector.value;
+        buildCategoryElementList(category, elementsList, selectedSortCriteria);
+    });
+});
+
+
+// Assuming a sort selector with id 'sort-criteria'
+var sortCriteriaSelector = document.getElementById('sort-criteria');
+
+document.addEventListener('DOMContentLoaded', function() {
+    buildCategoryElementList(category, elementsList); // Original call remains
 
     sortCriteriaSelector.addEventListener('change', function() {
-        search(searchInput, category, elementsList, sortCriteriaSelector.value);
+        // Re-fetch and rebuild the element list using the selected sort criteria.
+        // You might want to extract the sorting direction as well if your UI provides for it.
+        var selectedSortCriteria = sortCriteriaSelector.value;
+        buildCategoryElementList(category, elementsList, selectedSortCriteria);
     });
+
+    // Existing initializations...
 });
 
 
@@ -30,26 +47,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
  //fetches names of all elements in a category (e.g. all species, all characters, etc.)
 //then adds these names to the display as list elements
-function buildCategoryElementList(fetchingFromCategory,elementsList) {
-
+// Add a sort parameter to the function.
+function buildCategoryElementList(fetchingFromCategory, elementsList, sortCriteria = 'name', sortDirection = 'ASC') {
     fetch('/fetch-category-element-names', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            fetch_from_category : fetchingFromCategory
+            fetch_from_category: fetchingFromCategory,
+            sort_by: sortCriteria,
+            sort_direction: sortDirection // Include sorting parameters
         })
     })
     .then(response => response.json())
     .then(data => {
-        // Call function to display information
-        buildCategoryElementListHTML(data,elementsList);
+        // Clears the current list and rebuilds it with sorted data
+        elementsList.innerHTML = ''; // Clear current list elements before adding new ones
+        buildCategoryElementListHTML(data, elementsList);
     })
     .catch(error => {
         console.error('Error:', error);
     });
-
 }
 
 //adds list elements to the page based on what's returned by the sql query
@@ -377,30 +396,20 @@ function filterCriteriaAdded(){
 
 
  
-function search(searchInput, category, elementsList, sortCriteria) {
+function search(searchInput,category,elementsList) {
     let searchValue = searchInput.value.toLowerCase();
-    let sortValue = sortCriteria; // Get the current value of the sort criteria selector
 
-    // Modify fetch URL or parameters to include sorting
-    fetch('/fetch-category-element-names', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            fetch_from_category: category,
-            sort_by: sortValue, // Include sort criteria in the request
-            search_text: searchValue // Include search text if implementing search functionality
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Call function to display information
-        elementsList.innerHTML = ''; // Clear current list
-        buildCategoryElementListHTML(data, elementsList);
-    })
-    .catch(error => {
-        console.error('Error:', error);
+    let items = elementsList.querySelectorAll('li');  // Get all items that are of type list from the page
+
+    items.forEach(function(item) {
+        const name = item.dataset.elementName;
+        const name_lower = name.toLowerCase();
+
+        if(name_lower.includes(searchValue)){ // Check if the character name includes the search value
+            setListItemDisplayBasedOnFilters(item,filterCriteria,name,category,elementsList);
+        } else {
+            setListItemDisplay(item,false);
+        }
     });
 }
 
