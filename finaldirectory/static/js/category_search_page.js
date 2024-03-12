@@ -1,5 +1,5 @@
-// VARIABLES CREATED
-// var category
+//VARIABLES CREATED
+//var category
 
 var searchInput = document.getElementById('search');
 var elementsList = document.getElementById('search-list'); // Gets list element
@@ -7,69 +7,105 @@ var elementsList = document.getElementById('search-list'); // Gets list element
 // Wait until DOM content loaded
 document.addEventListener('DOMContentLoaded', function() {
     buildCategoryElementList(category, elementsList); // Generates list of category elements
+
     addEventListenersToElementList(category, elementsList); // adds event listeners for clicking on elements
+    
     loadCriteria(); // loads filter criteria into dropdowns
     
     searchInput.addEventListener('input', function() {
-        search(searchInput, category, elementsList);
+        search(searchInput,category,elementsList);
     });
 });
 
-// Fetches names of all elements in a category (e.g., all species, all characters, etc.)
-// then adds these names to the display as list elements
-function buildCategoryElementList(fetchingFromCategory, elementsList) {
+
+
+
+
+
+ //fetches names of all elements in a category (e.g. all species, all characters, etc.)
+//then adds these names to the display as list elements
+function buildCategoryElementList(fetchingFromCategory,elementsList) {
+
     fetch('/fetch-category-element-names', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            fetch_from_category: fetchingFromCategory
+            fetch_from_category : fetchingFromCategory
         })
     })
     .then(response => response.json())
     .then(data => {
         // Call function to display information
-        buildCategoryElementListHTML(data, elementsList);
+        buildCategoryElementListHTML(data,elementsList);
     })
     .catch(error => {
         console.error('Error:', error);
     });
+
 }
 
-// Adds list elements to the page based on what's returned by the SQL query
-function buildCategoryElementListHTML(elements, elementsList) {
-    elementsList.innerHTML = ''; // Clear existing elements before adding new ones
+//adds list elements to the page based on what's returned by the sql query
+function buildCategoryElementListHTML(elements,elementsList){
+    
 
-    elements.forEach(function(element) {
+    for(let i = 0; i < elements.length; i++){
+        let element = elements[i];
+
         let entry = document.createElement('li');
         entry.dataset.elementName = element;
         entry.appendChild(document.createTextNode(element));
+        
         elementsList.appendChild(entry);
-    });
-}
-
-// Adds click event listeners to element list
-function addEventListenersToElementList(category, elementsList) {
-    elementsList.addEventListener('click', function(event) {
-        if (event.target.tagName === 'LI') {
-            let elementName = event.target.dataset.elementName;
-            toggleElementInformation(category, elementName, event.target);
-        }
-    });
-}
-
-// Check if info box exists for characters upon click, delete if so, build one if not
-function toggleElementInformation(fromCategory, elementName, targetElement) {
-    var existingInfoBox = targetElement.nextElementSibling;
-    if (existingInfoBox && existingInfoBox.classList.contains('info-box')) {
-        existingInfoBox.remove(); // If an info box exists, remove it
-    } else {
-        buildElementInfoBox(fromCategory, elementName, targetElement);
     }
 }
 
-// Builds info box
+
+
+
+
+
+
+
+//adds click event listeners to element list
+function addEventListenersToElementList(category, elementsList){
+
+    elementsList.addEventListener('click', function(event) {
+
+        // Check if the clicked element is a list type
+        if (event.target.tagName === 'LI') {
+
+            let elementName = event.target.dataset.elementName;
+            console.log(elementName)
+            toggleElementInformation(category, elementName, event.target);
+
+        }
+
+    });
+
+}
+
+// check if info box exists for characters upon click, 
+//delete if so, build one if not
+function toggleElementInformation(fromCategory, elementName, targetElement) {
+
+    // Grab the next item of the element that has been clicked
+    var existingInfoBox = targetElement.nextElementSibling;
+
+    // Check if that item already displays its info box
+    if (existingInfoBox && existingInfoBox.classList.contains('info-box')) {
+        
+        existingInfoBox.remove(); // If an info box exists, remove it
+
+    } else {
+ 
+        buildElementInfoBox(fromCategory, elementName, targetElement);
+
+    }
+}
+
+// builds info box
 function buildElementInfoBox(fromCategory, elementName, targetListElement) {
     fetch('/element-info', {
         method: 'POST',
@@ -83,52 +119,163 @@ function buildElementInfoBox(fromCategory, elementName, targetListElement) {
     })
     .then(response => response.json())
     .then(data => {
+
         displayElementInformation(fromCategory, data, targetListElement);
+
     })
     .catch(error => {
         console.error('Error:', error);
     });
 }
 
-// Function to display element information upon toggle
+// Function to display character information upon toggle
 function displayElementInformation(fromCategory, elementInfo, targetListElement) {
+
+    // Create a div element for the info box
     var infoBox = document.createElement('div');
     infoBox.classList.add('info-box');
-    infoBox.innerHTML = formatElementInformationForDisplay(fromCategory, elementInfo);
+    
+    infoBox.innerHTML = formatElementInformationForDisplay(fromCategory, elementInfo); // Set the HTML content of the info box to the formatted character information
+
+    //Insert the info box after the target element
     targetListElement.insertAdjacentElement('afterend', infoBox);
 }
 
-function formatElementInformationForDisplay(fromCategory, info) {
-    let formattedInfo = "ERR: !!NO FORMAT FOUND!!";
-    // Format information based on category and info; structure as per original cases
+function formatElementInformationForDisplay(fromCategory, info){
+     let formattedInfo = "ERR: !!NO FORMAT FOUND!!"
+
+    switch(fromCategory) {
+      case "starships":
+        formattedInfo = `
+            <p><strong>Model:</strong> ${info[1]}</p>
+            <p><strong>Manufacturer:</strong> ${info[2]}</p>
+            <p><strong>Cost:</strong> ${info[3]}</p>
+            <p><strong>Length:</strong> ${info[4]}</p>
+            <p><strong>Maximum Atmosphering Speed:</strong> ${info[5]}</p>
+            <p><strong>Crew:</strong> ${info[6]}</p>
+            <p><strong>Passengers:</strong> ${info[7]}</p>
+            <p><strong>Cargo Capacity:</strong> ${info[8]}</p>
+            <p><strong>Consumables:</strong> ${info[9]}</p>
+            <p><strong>Hyperdriving Rating:</strong> ${info[10]}</p>
+            <p><strong>mglt:</strong> ${info[11]}</p>
+            <p><strong>Starship Class:</strong> ${info[12]}</p>
+        `;
+        break;
+
+      case "species":
+        formattedInfo = `
+            <p><strong>Classification:</strong> ${info[1]}</p>
+            <p><strong>Designation:</strong> ${info[2]}</p>
+            <p><strong>Average Height:</strong> ${info[3]}</p>
+            <p><strong>Skin Color:</strong> ${info[4]}</p>
+            <p><strong>Hair Color:</strong> ${info[5]}</p>
+            <p><strong>Eye Color:</strong> ${info[6]}</p>
+            <p><strong>Lifespan:</strong> ${info[7]}</p>
+            <p><strong>Language:</strong> ${info[8]}</p>
+            <p><strong>Home World:</strong> ${info[9]}</p>
+        `;
+        break;
+
+      case "planets":
+        formattedInfo = `
+            <p><strong>Name:</strong> ${info[0]}</p>
+            <p><strong>Rotation Period (Days):</strong> ${info[1]}</p>
+            <p><strong>Orbital Period (Days):</strong> ${info[2]}</p>
+            <p><strong>Diameter:</strong> ${info[3]}</p>
+            <p><strong>Climate:</strong> ${info[4]}</p>
+            <p><strong>Gravity:</strong> ${info[5]}</p>
+            <p><strong>Terrain:</strong> ${info[6]}</p>
+            <p><strong>Water Coverage (%):</strong> ${info[7]}</p>
+            <p><strong>Population:</strong> ${info[8]}</p>
+        `;
+        break;
+
+      case "vehicles":
+        formattedInfo = `
+            <p><strong>Name:</strong> ${info[0]}</p>
+            <p><strong>Model:</strong> ${info[1]}</p>
+            <p><strong>Manufacturer:</strong> ${info[2]}</p>
+            <p><strong>Cost (Credits):</strong> ${info[3]}</p>
+            <p><strong>Length (Meters):</strong> ${info[4]}</p>
+            <p><strong>Max Atmosphering Speed (km/h):</strong> ${info[5]}</p>
+            <p><strong>Crew:</strong> ${info[6]}</p>
+            <p><strong>Passengers:</strong> ${info[7]}</p>
+            <p><strong>Cargo Capacity (kg):</strong> ${info[8]}</p>
+            <p><strong>Consumables:</strong> ${info[9]}</p>
+            <p><strong>Class:</strong> ${info[10]}</p>
+        `;
+        break;
+
+      case "characters":
+        formattedInfo = `
+            <p><strong>Name:</strong> ${info[0]}</p>
+            <p><strong>Height:</strong> ${info[1]}</p>
+            <p><strong>Mass:</strong> ${info[2]}</p>
+            <p><strong>Skin Color:</strong> ${info[3]}</p>
+            <p><strong>Hair Color:</strong> ${info[4]}</p>
+            <p><strong>Eye Color:</strong> ${info[5]}</p>
+            <p><strong>Birth Year:</strong> ${info[6]}</p>
+            <p><strong>Gender:</strong> ${info[7]}</p>
+            <p><strong>Home World:</strong> ${info[8]}</p>
+            <p><strong>Species:</strong> ${info[9]}</p>
+        `;
+        break;
+
+      default:
+        console.log("ERROR: NO ELEMENT FORMAT FOUND FOR THIS CATEGORY!")
+    }
+
     return formattedInfo;
 }
 
-function loadCriteria() {
-    var select = document.getElementById('criteria_filter_selector');
+
+
+
+
+//loads the possible criteria from the column names of the database
+function loadCriteria(){
+	var select = document.getElementById('criteria_filter_selector');
     let criteria = stringToList(criteriaOptions);
-    criteria.forEach(function(criteriaItem) {
-        addToSelector(criteriaItem, select);
-    });
+
+    for (let i = 0; i < criteria.length; i++) {
+        addToSelector(criteria[i],select)
+    }
 }
 
-function stringToList(str) {
-    return str.slice(1, -1).replaceAll(" ", "").replaceAll("&#39;", "").split(",");
+//converts lists from strings to lists in js
+function stringToList(str){
+    return str.slice(1,-1).replaceAll(" ","").replaceAll("&#39;","").split(",");
 }
 
-function addToSelector(add, selector) {
-    var opt = document.createElement('option');
-    opt.value = add;
-    opt.innerHTML = cleanTextForDisplay(add);
-    selector.appendChild(opt);
+//adds supplied value to a <select> element
+function addToSelector(add,selector){
+     var opt = document.createElement('option');
+     opt.value = add;
+     opt.innerHTML = cleanTextForDisplay(add);
+     selector.appendChild(opt);
 }
 
-function cleanTextForDisplay(w) {
-    return w.replaceAll("_", " ").split(" ").map(function(word) {
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    }).join(" ").trim();
+//replaces underscores with spaces, capitalizes each word
+function cleanTextForDisplay(w){
+    let words = w.replaceAll("_", " ").split(" ");
+
+    let cleanedText = "";
+
+    for(let i = 0; i < words.length; i++){
+
+        let word = words[i].replaceAll(" ","");
+        let capitalized =
+            word.charAt(0).toUpperCase()
+            + word.slice(1);
+
+        cleanedText += capitalized + " ";
+    }
+
+    return cleanedText;
 }
 
+//displays the selection boxes / text entry boxes for the type of data entry required (e.g. "name" will need text entry, "size" will need number entry)
+var filterCriteriaTypeCurrent = "none";
 function filterCriteriaSelected(){
     let selectedCriteria = document.getElementById("criteria_filter_selector").value;
     let selectedCriteria_type = stringToList(criteriaOptions_dataTypes)[
@@ -138,15 +285,20 @@ function filterCriteriaSelected(){
     document.getElementById("criteria_filter_options_text").style.display = "none";
     document.getElementById("criteria_filter_options_real").style.display = "none";
 
-    if (selectedCriteria_type == "text" || selectedCriteria_type == "charactervarying"){
+
+    if        (selectedCriteria_type == "text" || selectedCriteria_type == "charactervarying"){
+
         document.getElementById("criteria_filter_options_text").style.display = "block";
         filterCriteriaTypeCurrent = "text";
+
     } else if (selectedCriteria_type == "real" || selectedCriteria_type == "integer"){
+        
         document.getElementById("criteria_filter_options_real").style.display = "block";
         filterCriteriaTypeCurrent = "real";
+    
     }
+    
 }
-
 
 //dictionary that converts from filter types to displayable text
 var filterCriteria = [];
@@ -273,13 +425,21 @@ function setListItemDisplayBasedOnFilters(item,criteria,name,fetchingFromCategor
     
 }
 
-function setListItemDisplay(item, doDisplay) {
-    item.style.display = doDisplay ? 'block' : 'none';
-    // If hiding the item, also remove any info box that might be displayed
-    if (!doDisplay) {
+//displays or hides an item in an element list
+function setListItemDisplay(item,doDisplay) {
+    if (doDisplay) { 
+
+        item.style.display = 'block';
+
+    } else {
+        item.style.display = 'none';
+
+        // Check if there is an info box associated with the list item
         let infoBox = item.nextElementSibling;
         if (infoBox && infoBox.classList.contains('info-box')) {
+            // If an info box exists, remove it
             infoBox.remove();
         }
+
     }
 }
