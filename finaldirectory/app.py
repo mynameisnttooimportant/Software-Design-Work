@@ -3,9 +3,7 @@ import argparse
 import psycopg2
 import sys
 
-
 app = Flask(__name__, static_folder='static', template_folder='templates')
-
 
 # Define a function to establish connection to PostgreSQL
 def connect_to_db():
@@ -22,33 +20,20 @@ def connect_to_db():
     except Exception as e:
         print("Error connecting to database:", e)
 
-
-
-
-
-
-
 @app.route('/')
 def home():
     return render_template('home_page.html')
-
 
 @app.route('/search/<category>')
 def search_category(category):
 
     allColumns = get_all_columns(category);
     data = {
-        "criteriaOptions" : allColumns["columns"], 
+        "criteriaOptions" : allColumns["columns"],
         "criteriaOptions_dataTypes" : allColumns["columnDataTypes"]
     }
 
     return render_template('category_search_page.html', category=category, data=data)
-
-
-
-
-
-
 
 #returns a dictionary with the column names and data types of each column
 def get_all_columns(db):
@@ -66,31 +51,32 @@ def get_all_columns(db):
         columns.append(str(column[0]))
         columnDataTypes.append(str(column[1]))
 
-    return { 
+    return {
         "columns" : columns,
         "columnDataTypes" : columnDataTypes
     }
 
-
-# Define a route to handle the request for character information
 @app.route('/fetch-category-element-names', methods=['POST'])
 def fetch_category_element_names():
     try:
         request_data = request.get_json()
         category = request_data.get('fetch_from_category')
+        sort_by = request_data.get('sort_by', None)  # New
+        sort_direction = request_data.get('sort_direction', 'asc')  # New
+
+        # Build the ORDER BY clause dynamically
+        order_clause = f" ORDER BY {sort_by} {sort_direction}" if sort_by else " ORDER BY name"
 
         # Query the database
         conn = connect_to_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT name FROM " + category + " ORDER BY name")
+        cursor.execute(f"SELECT name FROM {category}{order_clause}")
         info = cursor.fetchall()
         cursor.close()
         conn.close()
 
-
         if info:
             return jsonify(info)
-
         else:
             # Error if category not found
             return jsonify({'error': 'Category not found'}), 404
@@ -98,12 +84,6 @@ def fetch_category_element_names():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
-
-
-
-
-# Define a route to handle the request for element information
 @app.route('/element-info', methods=['POST'])
 def element_info():
     try:
@@ -122,18 +102,11 @@ def element_info():
 
         if info:
             return jsonify(info)
-
         else:
             return jsonify({'error': 'Element not found'}), 404
-
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
-
-
-
-# Define a route to handle filter checks
 @app.route('/check-if-filter-applies', methods=['POST'])
 def check_if_filter_applies():
     try:
@@ -155,7 +128,6 @@ def check_if_filter_applies():
 
             searchQuery = ""
 
-            #sql query depends on types of filters applied
             if(searchTerm_criteria_filter == "filter_real_is"):
                 searchQuery = searchTerm_criteria + " = " + searchTerm_value
             elif(searchTerm_criteria_filter == "filter_real_greaterThan"):
@@ -171,9 +143,7 @@ def check_if_filter_applies():
             elif(searchTerm_criteria_filter == "filter_text_endsWith"):
                 searchQuery = "UPPER(" + searchTerm_criteria + ") LIKE '%" + searchTerm_value + "'"
 
-            #adds this part of the query to full sql query
             sqlQuery += searchQuery
-
 
         # Query the database
         conn = connect_to_db()
@@ -185,20 +155,14 @@ def check_if_filter_applies():
 
         if info:
             return jsonify({'result' : "true"})
-
         else:
             return jsonify({'result' : "false"})
-
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-
-
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('host', help='the host server that this application runs on')
     parser.add_argument('port', help='the port that this application listens on')
     arguments = parser.parse_args()
-    app.run(host=arguments.host, port=arguments.port, debug=True) 
+    app.run(host=arguments.host, port=arguments.port, debug=True)
