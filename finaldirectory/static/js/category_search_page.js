@@ -1,4 +1,3 @@
-
 //VARIABLES CREATED
 //var category
 
