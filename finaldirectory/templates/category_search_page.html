@@ -31,23 +31,31 @@
             <br>
 
             <select onchange="filterCriteriaSelected();" name="Criteria" id="criteria_filter_selector">
-                <option selected disabled value> -- Select a Criteria for Filtering or Sorting -- </option>
-                <!-- Filter and Sort Options will be dynamically filled -->
+                <option selected disabled value> -- Select a Criteria for Filtering -- </option>
+                <!-- Filter Options will be dynamically filled -->
             </select>
 
             <br>
+            <br>
 
-            <!-- Options for Sorting Direction -->
-            <div id="sorting_direction" style="display: none;">
-                <input type="radio" id="sort_asc" name="sort_direction" value="asc" checked>
-                <label for="sort_asc">Ascending</label>
-                <input type="radio" id="sort_desc" name="sort_direction" value="desc">
-                <label for="sort_desc">Descending</label>
+            <div>
+                <label for="sort_criteria">Sort Criteria:</label>
+                <select id="sort_criteria">
+                    <option value="">-- Select --</option>
+                    <!-- Sort Options will be dynamically filled based on the same criteria for filtering -->
+                </select>
+
+                <label for="sort_direction">Sort Direction:</label>
+                <select id="sort_direction">
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
             </div>
 
             <br>
 
-            <button type="button" onclick="applyFiltersAndSort();">Apply Filters and Sort</button>
+            <button type="button" onclick="applyFilters();">Apply Filters</button>
+            <button type="button" onclick="applySort();">Apply Sort</button>
 
             <br>
             <br>
