@@ -9,27 +9,6 @@ var sortCriteriaSelector = document.getElementById('sort-criteria');
 
 
 
-
-function populateSortDropdownBasedOnFilterCriteria() {
-    var filterCriteriaSelector = document.getElementById('criteria_filter_selector');
-    var sortCriteriaSelector = document.getElementById('sort-criteria');
-
-    // Clear existing options in sort dropdown
-    sortCriteriaSelector.innerHTML = '';
-
-    // Add a default option to the sort dropdown
-    var defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.innerHTML = 'Select Sort Criteria';
-    sortCriteriaSelector.appendChild(defaultOption);
-
-    // Clone and append filter criteria options to sort dropdown
-    for (let i = 1; i < filterCriteriaSelector.options.length; i++) { // start from 1 to skip the default "Select a Criteria" option
-        var option = filterCriteriaSelector.options[i].cloneNode(true);
-        sortCriteriaSelector.appendChild(option);
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function() {
     buildCategoryElementList(category, elementsList);
     addEventListenersToElementList(category, elementsList);
