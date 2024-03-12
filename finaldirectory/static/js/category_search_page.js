@@ -14,9 +14,14 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCriteria(); // loads filter criteria into dropdowns
     
     searchInput.addEventListener('input', function() {
-        search(searchInput,category,elementsList);
+        search(searchInput, category, elementsList, sortCriteriaSelector.value);
+    });
+
+    sortCriteriaSelector.addEventListener('change', function() {
+        search(searchInput, category, elementsList, sortCriteriaSelector.value);
     });
 });
+
 
 
 
@@ -372,20 +377,30 @@ function filterCriteriaAdded(){
 
 
  
-function search(searchInput,category,elementsList) {
+function search(searchInput, category, elementsList, sortCriteria) {
     let searchValue = searchInput.value.toLowerCase();
+    let sortValue = sortCriteria; // Get the current value of the sort criteria selector
 
-    let items = elementsList.querySelectorAll('li');  // Get all items that are of type list from the page
-
-    items.forEach(function(item) {
-        const name = item.dataset.elementName;
-        const name_lower = name.toLowerCase();
-
-        if(name_lower.includes(searchValue)){ // Check if the character name includes the search value
-            setListItemDisplayBasedOnFilters(item,filterCriteria,name,category,elementsList);
-        } else {
-            setListItemDisplay(item,false);
-        }
+    // Modify fetch URL or parameters to include sorting
+    fetch('/fetch-category-element-names', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            fetch_from_category: category,
+            sort_by: sortValue, // Include sort criteria in the request
+            search_text: searchValue // Include search text if implementing search functionality
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Call function to display information
+        elementsList.innerHTML = ''; // Clear current list
+        buildCategoryElementListHTML(data, elementsList);
+    })
+    .catch(error => {
+        console.error('Error:', error);
     });
 }
 
