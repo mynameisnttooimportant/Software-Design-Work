@@ -4,48 +4,24 @@
 
 var searchInput = document.getElementById('search');
 var elementsList = document.getElementById('search-list'); // Gets list element
-var sortCriteriaSelector = document.getElementById('sort-criteria');
 
-
-
-
-
-function populateSortDropdownBasedOnFilterCriteria() {
-    var filterCriteriaSelector = document.getElementById('criteria_filter_selector');
-    var sortCriteriaSelector = document.getElementById('sort-criteria');
-
-    // Clear existing options in sort dropdown
-    sortCriteriaSelector.innerHTML = '';
-
-    // Add a default option to the sort dropdown
-    var defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.innerHTML = 'Select Sort Criteria';
-    sortCriteriaSelector.appendChild(defaultOption);
-
-    // Clone and append filter criteria options to sort dropdown
-    for (let i = 1; i < filterCriteriaSelector.options.length; i++) { // start from 1 to skip the default "Select a Criteria" option
-        var option = filterCriteriaSelector.options[i].cloneNode(true);
-        sortCriteriaSelector.appendChild(option);
-    }
-}
-
+// Wait until DOM content loaded
 document.addEventListener('DOMContentLoaded', function() {
-    buildCategoryElementList(category, elementsList);
-    addEventListenersToElementList(category, elementsList);
-    loadCriteria(); // Assumes this populates filter criteria
-    populateSortDropdownBasedOnFilterCriteria(); // Populate sort criteria based on filter criteria
 
+    buildCategoryElementList(category, elementsList); // Generates list of category elements
+    addEventListenersToElementList(category, elementsList); // Adds event listeners for clicking on elements
+    loadCriteria(); // Loads filter criteria into dropdowns
     searchInput.addEventListener('input', function() {
         search(searchInput, category, elementsList);
     });
 
+    // Sort criteria selector event listener
     sortCriteriaSelector.addEventListener('change', function() {
         var selectedSortCriteria = sortCriteriaSelector.value;
-        // Assuming ascending sort; modify if you also want to support descending
-        buildCategoryElementList(category, elementsList, selectedSortCriteria, 'ASC');
+        buildCategoryElementList(category, elementsList, selectedSortCriteria);
     });
 });
+
 
 
 
@@ -74,7 +50,6 @@ function buildCategoryElementList(fetchingFromCategory, elementsList, sortCriter
         console.error('Error:', error);
     });
 }
-
 
 //adds list elements to the page based on what's returned by the sql query
 function buildCategoryElementListHTML(elements,elementsList){
