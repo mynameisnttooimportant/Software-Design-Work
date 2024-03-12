@@ -4,6 +4,7 @@
 
 var searchInput = document.getElementById('search');
 var elementsList = document.getElementById('search-list'); // Gets list element
+var sortCriteriaSelector = document.getElementById('sort-criteria');
 
 // Wait until DOM content loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -21,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
         buildCategoryElementList(category, elementsList, selectedSortCriteria);
     });
 });
+
+
+
 
 
 
