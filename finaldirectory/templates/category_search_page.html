@@ -31,16 +31,15 @@
             <br>
 
             <label for="criteria_filter_selector">Filter Criteria:</label>
-            <select onchange="filterCriteriaSelected();" id="criteria_filter_selector">
+            <select onchange="filterCriteriaSelected();" name="Criteria" id="criteria_filter_selector">
                 <option selected disabled value> -- Select a Criteria -- </option>
-                <!-- Options dynamically filled based on data -->
+                <!-- Dynamically filled options -->
             </select>
 
             <br>
 
-            <div id="criteria_filter_options" style="display:none;">
-                <!-- Real Number Filter Options -->
-                <div id="criteria_filter_options_real" style="display: none;">
+            <div id="criteria_filter_options">
+                <div id="criteria_filter_options_real" class="criteria_filter_options" style="display: none;">
                     <select id="criteria_filter_options_dropdown_real">
                         <option value="filter_real_greaterThan">Greater Than</option>
                         <option value="filter_real_lessThan">Less Than</option>
@@ -48,9 +47,8 @@
                     </select>
                     <input type="number" id="criteria_filter_options_entry_real">
                 </div>
-                
-                <!-- Text Filter Options -->
-                <div id="criteria_filter_options_text" style="display: none;">
+
+                <div id="criteria_filter_options_text" class="criteria_filter_options" style="display: none;">
                     <select id="criteria_filter_options_dropdown_text">
                         <option value="filter_text_contains">Contains</option>
                         <option value="filter_text_startsWith">Starts With</option>
@@ -60,30 +58,23 @@
                 </div>
             </div>
 
+            <br>
+
             <button type="button" onclick="filterCriteriaAdded();">Add Filter</button>
 
             <br>
             <br>
 
-            <!-- Sorting Options -->
             <label for="sort_criteria">Sort Criteria:</label>
             <select id="sort_criteria">
                 <option value="">-- Select --</option>
-                <!-- Sorting options should mirror the filter criteria -->
+                <!-- Dynamically filled with the same options as the filter criteria -->
             </select>
-
-            <label for="sort_direction">Sort Direction:</label>
-            <select id="sort_direction">
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
-            </select>
-
-            <button type="button" onclick="applySort();">Apply Sort</button>
 
             <br>
             <br>
 
-            <button type="button" onclick="location.reload();">Clear All</button>
+            <button type="button" onclick="location.reload();">Clear</button>
 
             <br>
 
@@ -95,6 +86,12 @@
         </div>
     </main>
 
+    <script>
+        // Data passed from server to JavaScript
+        var criteriaOptions = "{{ data.criteriaOptions }}";
+        var criteriaOptions_dataTypes = "{{ data.criteriaOptions_dataTypes }}";
+        var category = "{{category}}";
+    </script>
     <script src="../static/js/category_search_page.js"></script>
 </body>
 </html>
