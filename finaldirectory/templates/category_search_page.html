@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,59 +31,40 @@
             <br>
 
             <select onchange="filterCriteriaSelected();" name="Criteria" id="criteria_filter_selector">
-                <option selected disabled value> -- Select a Criteria -- </option>
+                <option selected disabled value> -- Select a Criteria for Filtering or Sorting -- </option>
+                <!-- Filter and Sort Options will be dynamically filled -->
             </select>
 
             <br>
 
-            <div id="criteria_filter_options">
-                <div id="criteria_filter_options_real" class="criteria_filter_options" style="display: none;">
-                    <select id="criteria_filter_options_dropdown_real">
-                      <option value="filter_real_greaterThan">Greater Than</option>
-                      <option value="filter_real_lessThan">Less Than</option>
-                      <option value="filter_real_is">Is</option>
-                    </select>
-
-                    <input type="number" id="criteria_filter_options_entry_real">
-                </div>
-
-                <div id="criteria_filter_options_text" class="criteria_filter_options" style="display: none;">
-                    <select id="criteria_filter_options_dropdown_text">
-                      <option value="filter_text_contains">Contains</option>
-                      <option value="filter_text_startsWith">Starts With</option>
-                      <option value="filter_text_endsWith">Ends With</option>
-                    </select>
-
-                    <input type="text" id="criteria_filter_options_entry_text">
-                </div>
+            <!-- Options for Sorting Direction -->
+            <div id="sorting_direction" style="display: none;">
+                <input type="radio" id="sort_asc" name="sort_direction" value="asc" checked>
+                <label for="sort_asc">Ascending</label>
+                <input type="radio" id="sort_desc" name="sort_direction" value="desc">
+                <label for="sort_desc">Descending</label>
             </div>
 
             <br>
 
-            <button type="button" onclick="filterCriteriaAdded();">Add Filter</button>
+            <button type="button" onclick="applyFiltersAndSort();">Apply Filters and Sort</button>
 
             <br>
             <br>
 
-            <button type="button" onclick="location.reload();">Clear</button>
-
-            <br>
-
-            <div id="criteria_filters"></div>
+            <button type="button" onclick="location.reload();">Clear All</button>
 
             <br>
             <br>
 
-            <div id="dropdown-container"></div>
-                <ul id="search-list">
-                    <!-- List of elements -->
-                </ul>
-            </div>
+            <ul id="search-list">
+                <!-- List of elements will be dynamically filled here -->
+            </ul>
+        </div>
     </main>
 
     <script>
-        //moves vars from python to js
-
+        // Passes vars from Python to JS
         var criteriaOptions = "{{ data.criteriaOptions }}";
         var criteriaOptions_dataTypes = "{{ data.criteriaOptions_dataTypes }}";
         var category = "{{category}}";
@@ -92,8 +72,3 @@
     <script src="../static/js/category_search_page.js"></script>
 </body>
 </html>
-
-
-
-
-
