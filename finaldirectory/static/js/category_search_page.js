@@ -29,9 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
- //fetches names of all elements in a category (e.g. all species, all characters, etc.)
+//fetches names of all elements in a category (e.g. all species, all characters, etc.)
 //then adds these names to the display as list elements
-// Add a sort parameter to the function.
+// Adds a sort parameter to the function.
 function buildCategoryElementList(fetchingFromCategory, elementsList, sortCriteria = 'name', sortDirection = 'ASC') {
     fetch('/fetch-category-element-names', {
         method: 'POST',
@@ -151,92 +151,91 @@ function displayElementInformation(fromCategory, elementInfo, targetListElement)
 }
 
 function formatElementInformationForDisplay(fromCategory, info){
-    let formattedInfo = "ERR: !!NO FORMAT FOUND!!"
+     let formattedInfo = "ERR: !!NO FORMAT FOUND!!"
 
-   switch(fromCategory) {
-     case "starships":
-       formattedInfo = `
-           <p><strong>Model:</strong> ${info[1]}</p>
-           <p><strong>Manufacturer:</strong> ${info[2]}</p>
-           <p><strong>Cost (credits):</strong> ${info[3]}</p>
-           <p><strong>Length (meters):</strong> ${info[4]}</p>
-           <p><strong>Maximum Atmosphering Speed (km/h):</strong> ${info[5]}</p>
-           <p><strong>Crew:</strong> ${info[6]}</p>
-           <p><strong>Passengers:</strong> ${info[7]}</p>
-           <p><strong>Cargo Capacity (kilograms):</strong> ${info[8]}</p>
-           <p><strong>Consumables:</strong> ${info[9]}</p>
-           <p><strong>Hyperdriving Rating:</strong> ${info[10]}</p>
-           <p><strong>mglt:</strong> ${info[11]}</p>
-           <p><strong>Starship Class:</strong> ${info[12]}</p>
-       `;
-       break;
+    switch(fromCategory) {
+      case "starships":
+        formattedInfo = `
+            <p><strong>Model:</strong> ${info[1]}</p>
+            <p><strong>Manufacturer:</strong> ${info[2]}</p>
+            <p><strong>Cost (credits):</strong> ${info[3]}</p>
+            <p><strong>Length (meters):</strong> ${info[4]}</p>
+            <p><strong>Maximum Atmosphering Speed (km/h):</strong> ${info[5]}</p>
+            <p><strong>Crew:</strong> ${info[6]}</p>
+            <p><strong>Passengers:</strong> ${info[7]}</p>
+            <p><strong>Cargo Capacity (kilograms):</strong> ${info[8]}</p>
+            <p><strong>Consumables:</strong> ${info[9]}</p>
+            <p><strong>Hyperdriving Rating:</strong> ${info[10]}</p>
+            <p><strong>mglt:</strong> ${info[11]}</p>
+            <p><strong>Starship Class:</strong> ${info[12]}</p>
+        `;
+        break;
 
-     case "species":
-       formattedInfo = `
-           <p><strong>Classification:</strong> ${info[1]}</p>
-           <p><strong>Designation:</strong> ${info[2]}</p>
-           <p><strong>Average Height (centimeters):</strong> ${info[3]}</p>
-           <p><strong>Skin Color:</strong> ${info[4]}</p>
-           <p><strong>Hair Color:</strong> ${info[5]}</p>
-           <p><strong>Eye Color:</strong> ${info[6]}</p>
-           <p><strong>Lifespan (standard years):</strong> ${info[7]}</p>
-           <p><strong>Language:</strong> ${info[8]}</p>
-           <p><strong>Home World:</strong> ${info[9]}</p>
-       `;
-       break;
+      case "species":
+        formattedInfo = `
+            <p><strong>Classification:</strong> ${info[1]}</p>
+            <p><strong>Designation:</strong> ${info[2]}</p>
+            <p><strong>Average Height (centimeters):</strong> ${info[3]}</p>
+            <p><strong>Skin Color:</strong> ${info[4]}</p>
+            <p><strong>Hair Color:</strong> ${info[5]}</p>
+            <p><strong>Eye Color:</strong> ${info[6]}</p>
+            <p><strong>Lifespan (standard years):</strong> ${info[7]}</p>
+            <p><strong>Language:</strong> ${info[8]}</p>
+            <p><strong>Home World:</strong> ${info[9]}</p>
+        `;
+        break;
 
-     case "planets":
-       formattedInfo = `
-           <p><strong>Name:</strong> ${info[0]}</p>
-           <p><strong>Rotation Period (Days):</strong> ${info[1]}</p>
-           <p><strong>Orbital Period (Days):</strong> ${info[2]}</p>
-           <p><strong>Diameter:</strong> ${info[3]}</p>
-           <p><strong>Climate:</strong> ${info[4]}</p>
-           <p><strong>Gravity:</strong> ${info[5]}</p>
-           <p><strong>Terrain:</strong> ${info[6]}</p>
-           <p><strong>Water Coverage (%):</strong> ${info[7]}</p>
-           <p><strong>Population:</strong> ${info[8]}</p>
-       `;
-       break;
+      case "planets":
+        formattedInfo = `
+            <p><strong>Name:</strong> ${info[0]}</p>
+            <p><strong>Rotation Period (Days):</strong> ${info[1]}</p>
+            <p><strong>Orbital Period (Days):</strong> ${info[2]}</p>
+            <p><strong>Diameter:</strong> ${info[3]}</p>
+            <p><strong>Climate:</strong> ${info[4]}</p>
+            <p><strong>Gravity:</strong> ${info[5]}</p>
+            <p><strong>Terrain:</strong> ${info[6]}</p>
+            <p><strong>Water Coverage (%):</strong> ${info[7]}</p>
+            <p><strong>Population:</strong> ${info[8]}</p>
+        `;
+        break;
 
-     case "vehicles":
-       formattedInfo = `
-           <p><strong>Name:</strong> ${info[0]}</p>
-           <p><strong>Model:</strong> ${info[1]}</p>
-           <p><strong>Manufacturer:</strong> ${info[2]}</p>
-           <p><strong>Cost (Credits):</strong> ${info[3]}</p>
-           <p><strong>Length (Meters):</strong> ${info[4]}</p>
-           <p><strong>Max Atmosphering Speed (km/h):</strong> ${info[5]}</p>
-           <p><strong>Crew:</strong> ${info[6]}</p>
-           <p><strong>Passengers:</strong> ${info[7]}</p>
-           <p><strong>Cargo Capacity (kg):</strong> ${info[8]}</p>
-           <p><strong>Consumables:</strong> ${info[9]}</p>
-           <p><strong>Class:</strong> ${info[10]}</p>
-       `;
-       break;
+      case "vehicles":
+        formattedInfo = `
+            <p><strong>Name:</strong> ${info[0]}</p>
+            <p><strong>Model:</strong> ${info[1]}</p>
+            <p><strong>Manufacturer:</strong> ${info[2]}</p>
+            <p><strong>Cost (Credits):</strong> ${info[3]}</p>
+            <p><strong>Length (Meters):</strong> ${info[4]}</p>
+            <p><strong>Max Atmosphering Speed (km/h):</strong> ${info[5]}</p>
+            <p><strong>Crew:</strong> ${info[6]}</p>
+            <p><strong>Passengers:</strong> ${info[7]}</p>
+            <p><strong>Cargo Capacity (kg):</strong> ${info[8]}</p>
+            <p><strong>Consumables:</strong> ${info[9]}</p>
+            <p><strong>Class:</strong> ${info[10]}</p>
+        `;
+        break;
 
-     case "characters":
-       formattedInfo = `
-           <p><strong>Name:</strong> ${info[0]}</p>
-           <p><strong>Height (cm):</strong> ${info[1]}</p>
-           <p><strong>Mass (kg):</strong> ${info[2]}</p>
-           <p><strong>Skin Color:</strong> ${info[3]}</p>
-           <p><strong>Hair Color:</strong> ${info[4]}</p>
-           <p><strong>Eye Color:</strong> ${info[5]}</p>
-           <p><strong>Birth Year:</strong> ${info[6]}</p>
-           <p><strong>Gender:</strong> ${info[7]}</p>
-           <p><strong>Home World:</strong> ${info[8]}</p>
-           <p><strong>Species:</strong> ${info[9]}</p>
-       `;
-       break;
+      case "characters":
+        formattedInfo = `
+            <p><strong>Name:</strong> ${info[0]}</p>
+            <p><strong>Height (cm):</strong> ${info[1]}</p>
+            <p><strong>Mass (kg):</strong> ${info[2]}</p>
+            <p><strong>Skin Color:</strong> ${info[3]}</p>
+            <p><strong>Hair Color:</strong> ${info[4]}</p>
+            <p><strong>Eye Color:</strong> ${info[5]}</p>
+            <p><strong>Birth Year:</strong> ${info[6]}</p>
+            <p><strong>Gender:</strong> ${info[7]}</p>
+            <p><strong>Home World:</strong> ${info[8]}</p>
+            <p><strong>Species:</strong> ${info[9]}</p>
+        `;
+        break;
 
-     default:
-       console.log("ERROR: NO ELEMENT FORMAT FOUND FOR THIS CATEGORY!")
-   }
+      default:
+        console.log("ERROR: NO ELEMENT FORMAT FOUND FOR THIS CATEGORY!")
+    }
 
-   return formattedInfo;
+    return formattedInfo;
 }
-
 
 
 
@@ -453,5 +452,3 @@ function setListItemDisplay(item,doDisplay) {
 
     }
 }
-
-
