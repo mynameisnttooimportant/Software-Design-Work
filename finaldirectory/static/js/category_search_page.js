@@ -1,3 +1,4 @@
+
 //VARIABLES CREATED
 //var category
 
@@ -443,3 +444,4 @@ function setListItemDisplay(item,doDisplay) {
 
     }
 }
+
