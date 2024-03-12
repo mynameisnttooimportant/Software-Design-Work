@@ -64,12 +64,13 @@
 
             <br>
             <br>
-
-            <label for="sort_criteria">Sort Criteria:</label>
-            <select id="sort_criteria">
-                <option value="">-- Select --</option>
-                <!-- Dynamically filled with the same options as the filter criteria -->
+            <select id="sort-criteria">
+                <option value="">Select Sort Criteria</option>
+                {% for option in data.criteriaOptions %}
+                <option value="{{ option }}">{{ option.replace('_', ' ') | capitalize }}</option>
+                {% endfor %}
             </select>
+            
 
             <br>
             <br>
