@@ -1,5 +1,5 @@
-//VARIABLES CREATED
-//var category
+// VARIABLES CREATED
+// var category
 
 var searchInput = document.getElementById('search');
 var elementsList = document.getElementById('search-list'); // Gets list element
@@ -7,57 +7,50 @@ var elementsList = document.getElementById('search-list'); // Gets list element
 // Wait until DOM content loaded
 document.addEventListener('DOMContentLoaded', function() {
     buildCategoryElementList(category, elementsList); // Generates list of category elements
-
     addEventListenersToElementList(category, elementsList); // adds event listeners for clicking on elements
-    
     loadCriteria(); // loads filter criteria into dropdowns
     
     searchInput.addEventListener('input', function() {
-        search(searchInput,category,elementsList);
+        search(searchInput, category, elementsList);
     });
 });
 
+// Fetches names of all elements in a category (e.g., all species, all characters, etc.)
+// then adds these names to the display as list elements
 function buildCategoryElementList(fetchingFromCategory, elementsList) {
-    // Capture sorting criteria from UI
-    const sortCriteria = document.getElementById('sort_criteria').value;
-    const sortDirection = document.querySelector('input[name="sort_direction"]:checked').value;
-
     fetch('/fetch-category-element-names', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            fetch_from_category: fetchingFromCategory,
-            sort_by: sortCriteria,  // Added
-            sort_direction: sortDirection,  // Added
+            fetch_from_category: fetchingFromCategory
         })
     })
     .then(response => response.json())
     .then(data => {
         // Call function to display information
-        buildCategoryElementListHTML(data,elementsList);
+        buildCategoryElementListHTML(data, elementsList);
     })
     .catch(error => {
         console.error('Error:', error);
     });
 }
 
-function buildCategoryElementListHTML(elements, elementsList){
-    elementsList.innerHTML = ''; // Clear existing elements
+// Adds list elements to the page based on what's returned by the SQL query
+function buildCategoryElementListHTML(elements, elementsList) {
+    elementsList.innerHTML = ''; // Clear existing elements before adding new ones
 
-    for(let i = 0; i < elements.length; i++){
-        let element = elements[i][0]; // Adjusted to accommodate array structure from SQL query
-
+    elements.forEach(function(element) {
         let entry = document.createElement('li');
         entry.dataset.elementName = element;
         entry.appendChild(document.createTextNode(element));
-        
         elementsList.appendChild(entry);
-    }
+    });
 }
 
-function addEventListenersToElementList(category, elementsList){
+// Adds click event listeners to element list
+function addEventListenersToElementList(category, elementsList) {
     elementsList.addEventListener('click', function(event) {
         if (event.target.tagName === 'LI') {
             let elementName = event.target.dataset.elementName;
@@ -66,15 +59,17 @@ function addEventListenersToElementList(category, elementsList){
     });
 }
 
+// Check if info box exists for characters upon click, delete if so, build one if not
 function toggleElementInformation(fromCategory, elementName, targetElement) {
     var existingInfoBox = targetElement.nextElementSibling;
     if (existingInfoBox && existingInfoBox.classList.contains('info-box')) {
-        existingInfoBox.remove();
+        existingInfoBox.remove(); // If an info box exists, remove it
     } else {
         buildElementInfoBox(fromCategory, elementName, targetElement);
     }
 }
 
+// Builds info box
 function buildElementInfoBox(fromCategory, elementName, targetListElement) {
     fetch('/element-info', {
         method: 'POST',
@@ -95,6 +90,7 @@ function buildElementInfoBox(fromCategory, elementName, targetListElement) {
     });
 }
 
+// Function to display element information upon toggle
 function displayElementInformation(fromCategory, elementInfo, targetListElement) {
     var infoBox = document.createElement('div');
     infoBox.classList.add('info-box');
@@ -102,45 +98,35 @@ function displayElementInformation(fromCategory, elementInfo, targetListElement)
     targetListElement.insertAdjacentElement('afterend', infoBox);
 }
 
-function formatElementInformationForDisplay(fromCategory, info){
-     let formattedInfo = "ERR: !!NO FORMAT FOUND!!"
-    switch(fromCategory) {
-      // Format case examples remain unchanged
-    }
+function formatElementInformationForDisplay(fromCategory, info) {
+    let formattedInfo = "ERR: !!NO FORMAT FOUND!!";
+    // Format information based on category and info; structure as per original cases
     return formattedInfo;
 }
 
-function loadCriteria(){
+function loadCriteria() {
     var select = document.getElementById('criteria_filter_selector');
     let criteria = stringToList(criteriaOptions);
-
-    for (let i = 0; i < criteria.length; i++) {
-        addToSelector(criteria[i],select)
-    }
+    criteria.forEach(function(criteriaItem) {
+        addToSelector(criteriaItem, select);
+    });
 }
 
-function stringToList(str){
-    return str.slice(1,-1).replaceAll(" ","").replaceAll("&#39;","").split(",");
+function stringToList(str) {
+    return str.slice(1, -1).replaceAll(" ", "").replaceAll("&#39;", "").split(",");
 }
 
-function addToSelector(add,selector){
-     var opt = document.createElement('option');
-     opt.value = add;
-     opt.innerHTML = cleanTextForDisplay(add);
-     selector.appendChild(opt);
+function addToSelector(add, selector) {
+    var opt = document.createElement('option');
+    opt.value = add;
+    opt.innerHTML = cleanTextForDisplay(add);
+    selector.appendChild(opt);
 }
 
-function cleanTextForDisplay(w){
-    let words = w.replaceAll("_", " ").split(" ");
-    let cleanedText = "";
-    for(let i = 0; i < words.length; i++){
-        let word = words[i].replaceAll(" ","");
-        let capitalized =
-            word.charAt(0).toUpperCase()
-            + word.slice(1);
-        cleanedText += capitalized + " ";
-    }
-    return cleanedText.trim();
+function cleanTextForDisplay(w) {
+    return w.replaceAll("_", " ").split(" ").map(function(word) {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join(" ").trim();
 }
 
 function filterCriteriaSelected(){
@@ -287,21 +273,13 @@ function setListItemDisplayBasedOnFilters(item,criteria,name,fetchingFromCategor
     
 }
 
-//displays or hides an item in an element list
-function setListItemDisplay(item,doDisplay) {
-    if (doDisplay) { 
-
-        item.style.display = 'block';
-
-    } else {
-        item.style.display = 'none';
-
-        // Check if there is an info box associated with the list item
+function setListItemDisplay(item, doDisplay) {
+    item.style.display = doDisplay ? 'block' : 'none';
+    // If hiding the item, also remove any info box that might be displayed
+    if (!doDisplay) {
         let infoBox = item.nextElementSibling;
         if (infoBox && infoBox.classList.contains('info-box')) {
-            // If an info box exists, remove it
             infoBox.remove();
         }
-
     }
 }
