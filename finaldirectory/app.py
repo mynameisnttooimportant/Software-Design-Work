@@ -78,9 +78,10 @@ def fetch_category_element_names():
     request_data = request.get_json()
     category = request_data.get('fetch_from_category')
     sort_by = request_data.get('sort_by', 'name')  # Default sort criteria
-    sort_direction = request_data.get('sort_direction', 'ASC').upper()  # Default sort direction
     
-    query = f"SELECT name FROM {category} ORDER BY {sort_by} {sort_direction};"
+    query = f"SELECT name FROM {category} ORDER BY {sort_by};"
+    
+    
     conn = connect_to_db()
     cursor = conn.cursor()
     cursor.execute(query)
