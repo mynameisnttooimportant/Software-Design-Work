@@ -49,11 +49,26 @@ function buildCategoryElementList(fetchingFromCategory, elementsList, sortCriter
         // Clears the current list and rebuilds it with sorted data
         elementsList.innerHTML = ''; // Clear current list elements before adding new ones
         buildCategoryElementListHTML(data, elementsList);
+
+        // Check if filters need to be reapplied
+        if (filterCriteria && filterCriteria.length > 0) {
+            reapplyFilters(); // Call reapplyFilters to reapply the filters on the sorted list
+        }
     })
     .catch(error => {
         console.error('Error:', error);
     });
 }
+
+
+function reapplyFilters() {
+    const items = elementsList.querySelectorAll('li');
+    items.forEach((item) => {
+        const name = item.dataset.elementName;
+        setListItemDisplayBasedOnFilters(item, filterCriteria, name, category, elementsList);
+    });
+}
+
 
 //adds list elements to the page based on what's returned by the sql query
 function buildCategoryElementListHTML(elements,elementsList){
